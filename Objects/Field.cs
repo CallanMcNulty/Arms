@@ -7,7 +7,8 @@ namespace Arms
   {
     private string _pattern;
     private string[] _tinctures;
-    private static Dictionary<string,string> hexDict = new Dictionary<string,string>{{"gules","#ff0000"},{"argent","#ffffff"}};
+    private static Dictionary<string,string> hexDict = new Dictionary<string,string>{{"gules","#ff0000"},{"argent","#dddddd"},
+                                                                                     {"sable","#000000"},{"vert","#00ff00"}};
     public string pattern
     {
       get
@@ -26,6 +27,10 @@ namespace Arms
     {
       _pattern = Pattern;
       _tinctures = Tinctures;
+      for(int i=0; i<_tinctures.Length; i++)
+      {
+        _tinctures[i] = hexDict[_tinctures[i]];
+      }
     }
     public string GetHex(string tinct)
     {

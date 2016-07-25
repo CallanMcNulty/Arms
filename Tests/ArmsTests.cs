@@ -18,7 +18,7 @@ namespace Arms
       Field fFess = new Field("solid", new string[] {"argent"});
       Field fShield = new Field("solid", new string[] {"gules"});
       div.field = fShield;
-      ChargeGroup cg = new ChargeGroup(div, "fess", fFess);
+      ChargeGroup cg = new ChargeGroup(div, "fess", 1, fFess);
       div.chargeGroups.Add(cg);
       Assert.Equal(4, div.chargeGroups[0].chargeDivs[0].shape.vertices.Count);
     }

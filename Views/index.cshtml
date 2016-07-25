@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <script type="text/javascript">
+    var insertHTML = function() {
+      var s = "@Model";
+      s = s.replace(/&lt;/g, "<");
+      s = s.replace(/&gt;/g, ">");
+      document.getElementById("shield").innerHTML = s;
+    }
+  </script>
+  </head>
+  <body onload="insertHTML()" >
+    <div id="shield" position="relative" style="height: 500px; width: 400px;">
+
+    </div>
+  </body>
+</html>

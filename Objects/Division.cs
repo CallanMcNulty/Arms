@@ -48,8 +48,41 @@ namespace Arms
     {
       _shape = Shape;
       _subdivisions = new Division[subs];
-      _field = null;
+      _field = new Field("solid", new string[]{"argent"});
       _chargeGroups = new List<ChargeGroup> {};
+    }
+    public Division[] ExecuteCommand(List<string> command, string commandType)
+    {
+      if(commandType=="tincture")
+      {
+        _field = new Field("solid", command.ToArray());
+      }
+      if(commandType=="ordinary")
+      {
+        ChargeGroup cg = new ChargeGroup(this, command[1], Int32.Parse(command[0]));
+        _chargeGroups.Add(cg);
+        return cg.chargeDivs;
+      }
+      if(commandType=="division")
+      {
+        string divType;
+        if(command[0]=="quarterly")
+        {
+          divType = "quarterly";
+        }
+        else
+        {
+          divType = command[1];
+        }
+        List<Polygon> shapes = this.shape.PartyPer(divType);
+        _subdivisions = new Division[shapes.Count];
+        for(int i=0; i<shapes.Count; i++)
+        {
+          _subdivisions[i] = new Division(shapes[i]);
+        }
+        return _subdivisions;
+      }
+      return new Division[] {};
     }
   }
 }

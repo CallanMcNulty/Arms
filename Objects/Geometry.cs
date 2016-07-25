@@ -124,11 +124,11 @@ namespace Geometry
       {
         return null;
       }
-      if(_m==float.PositiveInfinity)
+      if(_m==float.PositiveInfinity || _m==float.NegativeInfinity)
       {
         return new Point(_p1.X, otherLine.m*_p1.X+otherLine.b);
       }
-      if(otherLine.m==float.PositiveInfinity)
+      if(otherLine.m==float.PositiveInfinity || otherLine.m==float.NegativeInfinity)
       {
         return new Point(otherLine.P1.X, _m*otherLine.P1.X+_b);
       }
@@ -173,12 +173,20 @@ namespace Geometry
       {
         return _width;
       }
+      set
+      {
+        _width = value;
+      }
     }
     public float height
     {
       get
       {
         return _height;
+      }
+      set
+      {
+        _height = value;
       }
     }
     public float offsetX
@@ -187,12 +195,20 @@ namespace Geometry
       {
         return _offset_x;
       }
+      set
+      {
+        _offset_x = value;
+      }
     }
     public float offsetY
     {
       get
       {
         return _offset_y;
+      }
+      set
+      {
+        _offset_y = value;
       }
     }
     public Polygon(List<Point> Points, float Width, float Height, float OffsetX, float OffsetY)
@@ -239,7 +255,7 @@ namespace Geometry
     }
     public Point GetCenter()
     {
-      int resolution = 1000;
+      int resolution = 10;
       Line[] horizLines = this.GetSectionLines(resolution, true);
       Line[] vertLines = this.GetSectionLines(resolution, false);
       float horizCenterSum = 0.0F;
@@ -268,8 +284,8 @@ namespace Geometry
           float greaterX = Math.Max(side.P1.X, side.P2.X);
           float lesserY = Math.Min(side.P1.Y, side.P2.Y);
           float greaterY = Math.Max(side.P1.Y, side.P2.Y);
-          if(lesserX < possibleIntersection.X && possibleIntersection.X < greaterX
-            && lesserY < possibleIntersection.Y && possibleIntersection.Y < greaterY)
+          if(lesserX <= possibleIntersection.X && possibleIntersection.X <= greaterX
+            && lesserY <= possibleIntersection.Y && possibleIntersection.Y <= greaterY)
           {
             if(intersection1==null)
             {
@@ -387,6 +403,31 @@ namespace Geometry
       if(partitionType=="pale")
       {
         return this.Party(new Line(center, new Point(center.X, 100) ));
+      }
+      if(partitionType=="fess")
+      {
+        return this.Party(new Line(center, new Point(100, center.Y) ));
+      }
+      if(partitionType=="quarterly")
+      {
+        List<Polygon> result = new List<Polygon> {};
+        foreach(Polygon poly in this.PartyPer("fess"))
+        {
+          result.AddRange(poly.PartyPer("pale"));
+        }
+        for(int i=0; i<result.Count; i++)
+        {
+          if(i<2)
+          {
+            result[i].height = center.Y;
+          }
+          else
+          {
+            result[i].height = _height-center.Y;
+            result[i].offsetY = center.Y;
+          }
+        }
+        return result;
       }
       return null;
     }

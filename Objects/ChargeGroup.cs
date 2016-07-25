@@ -34,7 +34,7 @@ namespace Arms
         _layout = value;
       }
     }
-    public ChargeGroup(Division Parent, string chargeDevice, Field inputField, int Number=1, string Layout="unspecified")
+    public ChargeGroup(Division Parent, string chargeDevice, int Number=1, Field inputField=null, string Layout="unspecified")
     {
       _parent = Parent;
       _layout = Layout;
