@@ -106,6 +106,17 @@ namespace Arms
 
           newChargeDivShape = new Polygon(new List<Point> {new Point(upperLeft.X+size,upperLeft.Y),new Point(upperLeft.X-size,upperLeft.Y),new Point(center.X,center.Y-size),new Point(upperRight.X+size,upperRight.Y),new Point(upperRight.X-size,upperRight.Y),new Point(center.X-size,center.Y),new Point(center.X-size,100F),new Point(center.X+size,100F),new Point(center.X+size,center.Y)}, 100F, 100F, 0F, 0F);//
         }
+        else if(chargeDevice=="pall-reversed")
+        {
+          float size = 15F;
+          Line originLine = new Line(new Point(0F,0F),new Point(100F,100F));
+          Line bendLine = new Line(center, new Point(center.X+1, center.Y+originLine.m));
+          Line bendSinisterLine = new Line(center, new Point(center.X-1, center.Y+originLine.m));
+          Point left = new Point(bendLine.GetXAtYPos(100F) ,100F);
+          Point right = new Point(bendSinisterLine.GetXAtYPos(100F) ,100F);
+
+          newChargeDivShape = new Polygon(new List<Point> {new Point(right.X+size,right.Y),new Point(right.X-size,right.Y),new Point(center.X,center.Y-size),new Point(left.X+size,left.Y),new Point(left.X-size,left.Y),new Point(center.X-size,center.Y),new Point(center.X-size,0F),new Point(center.X+size,0F),new Point(center.X+size,center.Y)}, 100F, 100F, 0F, 0F);
+        }
         _chargesDivs[i] = new Division(newChargeDivShape);
         _chargesDivs[i].field = inputField;
       }
