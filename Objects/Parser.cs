@@ -22,7 +22,7 @@ namespace Arms
       List<string> command = new List<string> {};
       for(int i=0; i<blazon.Length; i++)
       {
-        Console.WriteLine("Start "+blazon[i]);
+        // Console.WriteLine("Start "+blazon[i]);
         string termType;
         bool inDictionary = termTypes.TryGetValue(blazon[i], out termType);
         termType = inDictionary ? termType : "ordinary";
@@ -37,9 +37,9 @@ namespace Arms
             oldTermType = inDictionary ? oldTermType : "notTincture";
             if(oldTermType!="tincture")
             {
-              Console.WriteLine(divStack.Count);
+              // Console.WriteLine(divStack.Count);
               ToPop = true;
-              Console.WriteLine(divStack.Count);
+              // Console.WriteLine(divStack.Count);
             }
             termType = "no";
           }
@@ -50,8 +50,8 @@ namespace Arms
         }
         else
         {
-          Console.WriteLine(string.Join(" ",command));
-          Console.WriteLine(commandType);
+          // Console.WriteLine(string.Join(" ",command));
+          // Console.WriteLine(commandType);
           Division[] newDivisions = divStack.Peek().ExecuteCommand(command, commandType);
           Array.Reverse(newDivisions);
           foreach(Division d in newDivisions)
@@ -67,8 +67,8 @@ namespace Arms
           ToPop = false;
         }
       }
-      Console.WriteLine(string.Join(" ",command));
-      Console.WriteLine(commandType);
+      // Console.WriteLine(string.Join(" ",command));
+      // Console.WriteLine(commandType);
       divStack.Peek().ExecuteCommand(command, commandType);
     }
   }

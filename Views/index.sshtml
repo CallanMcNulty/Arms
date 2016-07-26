@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <script type="text/javascript">
     var insertHTML = function() {
-      var s = "@Model";
+      var s = "@Model.html";
       s = s.replace(/&lt;/g, "<");
       s = s.replace(/&gt;/g, ">");
       document.getElementById("shield").innerHTML = s;
@@ -12,7 +12,7 @@
   </script>
   </head>
   <body onload="insertHTML()" >
-    <div id="shield" position="relative" style="height: 500px; width: 400px;">
+    <div id="shield" style="height: 500px; width: 400px; position: relative;">
 
     </div>
   </body>
