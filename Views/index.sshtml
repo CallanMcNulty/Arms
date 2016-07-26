@@ -2,6 +2,8 @@
 <html>
   <head>
   <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Mirza" rel="stylesheet">
+  <link href="../content/css/application.css" rel="stylesheet" type="text/css">
   <script type="text/javascript">
     var insertHTML = function() {
       var s = "@Model.html";
@@ -12,13 +14,46 @@
   </script>
   </head>
   <body onload="insertHTML()" >
-    <div id="shield" style="height: 500px; width: 400px; position: relative;">
 
+    <div class="image-fix">
+      <img src="../content/img/cartoucheborder.png" alt="shape fix, ignore">
+      <img src="../content/img/heaterborder.png" alt="shape fix, ignore">
+      <img src="../content/img/iberianborder.png" alt="shape fix, ignore">
+      <img src="../content/img/lozengeborder.png" alt="shape fix, ignore">
+      <img src="../content/img/swissborder.png" alt="shape fix, ignore">
     </div>
-    <form action="blazon" method="post">
-      <input type="text" name="blazon-string">
-      <input hidden name="div-value" value="height: 500px; width: 400px; position: relative;">
-      <button name="submit">submit</button>
-    </form>
+
+    <div class="container">
+
+      <div class="shield-box">
+        <div class="shape cartouche"></div>
+        <div class="shield">
+          <div id="shield" style="height: 500px; width: 400px; position: relative;"></div>
+        </div>
+      </div>
+
+
+      <div class="form-box">
+        <form action="blazon" method="post">
+          <input type="text" name="blazon-string">
+          <input hidden name="div-value" value="height: 500px; width: 400px; position: relative;">
+          <button name="submit">submit</button>
+        </form>
+      </div>
+
+      <div class="menu">
+          <div class="buttons shape-left">
+            <img src="../content/img/left.png" alt="left arrow">
+          </div> <!-- button left -->
+          <p class="label">Shape</p>
+          <div class="buttons shape-right">
+            <img src="../content/img/right.png" alt="right arrow">
+          </div> <!-- button right -->
+        </div> <!-- menu -->
+
+    </div><!-- container -->
+
+    <script src="../content/js/jquery-3.1.0.js"></script>
+    <script src="../content/js/maskscripts.js"></script>
   </body>
 </html>

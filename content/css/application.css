@@ -1,0 +1,93 @@
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+}
+
+.image-fix {
+  display: none;
+}
+
+
+* {
+  font-family: 'Mirza', cursive;
+}
+
+.label {
+  font-size: 48px;
+}
+
+.buttons:hover {
+  cursor: pointer;
+  opacity: .6;
+}
+
+.menu {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+}
+
+.shield-box {
+  width: 400px;
+  height: 500px;
+}
+
+.shape {
+  position: absolute;
+  margin-top: 0px;
+  margin-left: 0px;
+  width: 400px;
+  height: 500px;
+}
+
+.cartouche {
+  background-image: url('../img/cartoucheborder.png');
+  background-repeat: no-repeat;
+  background-size: 500px 500px;
+  background-position: center;
+}
+
+.heater {
+  background-image: url('../img/heaterborder.png');
+  background-repeat: no-repeat;
+  background-size: 500px 500px;
+  background-position: center;
+}
+
+.iberian {
+  background-image: url('../img/iberianborder.png');
+  background-repeat: no-repeat;
+  background-size: 500px 500px;
+  background-position: center;
+}
+
+.swiss{
+  background-image: url('../img/swissborder.png');
+  background-repeat: no-repeat;
+  background-size: 500px 500px;
+  background-position: center;
+}
+
+.lozenge {
+  background-image: url('../img/lozengeborder.png');
+  background-repeat: no-repeat;
+  background-size: 500px 500px;
+  background-position: center;
+}
+
+.none {
+  
+}
+
+.shield {
+  position: absolute;
+  margin-top: 0px;
+  margin-left: 0px;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+}
