@@ -64,8 +64,6 @@ namespace Arms
         dynamic Model = new ExpandoObject();
         Model.html = GenerateHTML(div);
         return View["index.sshtml", Model];
-
-
       };
     }
   }

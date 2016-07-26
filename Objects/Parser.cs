@@ -5,6 +5,7 @@ namespace Arms
 {
   public class Parser
   {
+    private static string[] hyphenate = new string[] {"bend sinister", "pall reversed", "blue celeste"};
     private static Dictionary<string, string> numberTable = new Dictionary<string, string> {{"one", "1"},
                                                                                   {"two", "2"},
                                                                                   {"three", "3"},
@@ -111,10 +112,26 @@ namespace Arms
     }
     public static string[] FormatBlazon(string newBlazon)
     {
+      string replacedBlazon = newBlazon.Replace(",","");
 
-      string[] formatBlazon = newBlazon.ToLower().Split(' ');
+      for(int i=0; i<hyphenate.Length; i++)
+      {
+        if (replacedBlazon.Contains(hyphenate[i]))
+        {
+          string arrayWords = hyphenate[i];
+          hyphenate[i].Replace(" ", "-");
+          replacedBlazon.Replace(arrayWords, hyphenate[i]);
+          Console.WriteLine(replacedBlazon);
+        }
+      }
+
+      string[] formatBlazon = replacedBlazon.ToLower().Split(' ');
       for(int i = 0; i<formatBlazon.Length; i++)
       {
+        if (!termTypes.ContainsKey(formatBlazon[i]))
+        {
+          formatBlazon[i] = formatBlazon[i].TrimEnd('s');
+        }
         if (numberTable.ContainsKey(formatBlazon[i]))
         {
          formatBlazon[i]=numberTable[formatBlazon[i]];
