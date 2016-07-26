@@ -50,7 +50,7 @@ namespace Arms
         List<Point> points = new List<Point> {new Point(0F,0F), new Point(0F,80F), new Point(50F,100F), new Point(100F,80F), new Point(100F,0F)};
         Polygon testPoly = new Polygon(points, 100F, 100F, 0F, 0F);
         Division div = new Division(testPoly);
-        Parser.Parse("per pale sable and per fess gules and vert", div);
+        Parser.Parse("per pale sable 1 bend argent and per fess gules 1 saltire argent and vert 1 cross argent", div);
         dynamic Model = new ExpandoObject();
         Model.html = GenerateHTML(div);
         return View["index.sshtml", Model];

@@ -255,7 +255,7 @@ namespace Geometry
     }
     public Point GetCenter()
     {
-      int resolution = 10;
+      int resolution = 1000;
       Line[] horizLines = this.GetSectionLines(resolution, true);
       Line[] vertLines = this.GetSectionLines(resolution, false);
       float horizCenterSum = 0.0F;
@@ -269,7 +269,7 @@ namespace Geometry
       float resultY = vertCenterSum / resolution;
       return new Point(resultX, resultY);
     }
-    private Dictionary<string, object> GetSideIntersections(Line intersectLine)
+    public Dictionary<string, object> GetSideIntersections(Line intersectLine)
     {
       Point intersection1 = null;
       Line intersectSide1 = null;
@@ -380,8 +380,8 @@ namespace Geometry
           minY = vertex.Y < minY ? vertex.Y : minY;
           maxY = vertex.Y > maxY ? vertex.Y : maxY;
         }
-        float newWidth = (maxX-minX) / _width * 100F;
-        float newHeight = (maxY-minY) / _height  * 100F;
+        float newWidth = (maxX-minX);
+        float newHeight = (maxY-minY);
         foreach(Point vertex in polygonPoints)
         {
           vertex.X = vertex.X - minX;

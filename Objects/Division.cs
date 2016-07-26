@@ -57,7 +57,7 @@ namespace Arms
       {
         _field = new Field("solid", command.ToArray());
       }
-      if(commandType=="ordinary")
+      if(commandType=="charge")
       {
         ChargeGroup cg = new ChargeGroup(this, command[1], Int32.Parse(command[0]));
         _chargeGroups.Add(cg);

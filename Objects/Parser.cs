@@ -5,14 +5,19 @@ namespace Arms
 {
   public class Parser
   {
-    private static Dictionary<string,string> termTypes = new Dictionary<string,string> {{"argent", "tincture"},
-                                                                                        {"gules", "tincture"},
-                                                                                        {"sable", "tincture"},
-                                                                                        {"vert", "tincture"},
-                                                                                        {"per", "division"},
-                                                                                        {"fess", "division"},
-                                                                                        {"pale", "division"},
-                                                                                        {"quarterly", "division"}};
+    private static Dictionary<string,string> termTypes = new Dictionary<string,string> {
+        {"argent", "tincture"},
+        {"gules", "tincture"},
+        {"sable", "tincture"},
+        {"vert", "tincture"},
+        {"per", "division"},
+        {"fess", "ordinary"},
+        {"pale", "ordinary"},
+        {"bend", "ordinary"},
+        {"saltire", "ordinary"},
+        {"cross", "ordinary"},
+        {"quarterly", "division"}
+      };
     private static Stack<Division> divStack = new Stack<Division>();
     public static void Parse(string blazonString, Division div)
     {
@@ -20,12 +25,17 @@ namespace Arms
       string[] blazon = blazonString.Split(' ');
       string commandType = termTypes[blazon[0]];
       List<string> command = new List<string> {};
+      bool modifyingCharge = false;
       for(int i=0; i<blazon.Length; i++)
       {
         // Console.WriteLine("Start "+blazon[i]);
         string termType;
         bool inDictionary = termTypes.TryGetValue(blazon[i], out termType);
-        termType = inDictionary ? termType : "ordinary";
+        termType = inDictionary ? termType : "charge";
+        if(termType=="ordinary")
+        {
+          termType = commandType=="division" ? "division" : "charge";
+        }
         bool ToPop = false;
         if(blazon[i]=="and")
         {
@@ -53,6 +63,7 @@ namespace Arms
           // Console.WriteLine(string.Join(" ",command));
           // Console.WriteLine(commandType);
           Division[] newDivisions = divStack.Peek().ExecuteCommand(command, commandType);
+          modifyingCharge = commandType=="charge" ? true : modifyingCharge;
           Array.Reverse(newDivisions);
           foreach(Division d in newDivisions)
           {
@@ -64,6 +75,11 @@ namespace Arms
         if(ToPop)
         {
           divStack.Pop();
+          if(modifyingCharge)
+          {
+            divStack.Pop();
+            modifyingCharge = false;
+          }
           ToPop = false;
         }
       }
