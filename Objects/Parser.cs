@@ -16,6 +16,8 @@ namespace Arms
         {"bend", "ordinary"},
         {"saltire", "ordinary"},
         {"cross", "ordinary"},
+        {"chevron", "ordinary"},
+        {"pall", "ordinary"},
         {"quarterly", "division"}
       };
     private static Stack<Division> divStack = new Stack<Division>();
