@@ -7,8 +7,12 @@ namespace Arms
   {
     private string _pattern;
     private string[] _tinctures;
-    private static Dictionary<string,string> hexDict = new Dictionary<string,string>{{"gules","#ff0000"},{"argent","#dddddd"},
-                                                                                     {"sable","#000000"},{"vert","#00ff00"}};
+    private static Dictionary<string,string> hexDict = new Dictionary<string,string>{{"gules","#cf1717"},{"argent","#dddddd"},
+                                                                                     {"sable","#000000"},{"vert","#00884A"},
+                                                                                     {"azure","#00549A"},{"purpure","#642667"},
+                                                                                     {"murrey","#991B41"},{"cendree","#b6ada5"},
+                                                                                     {"brunatre","#AA8155"},{"amaranth","#bb16a3"},
+                                                                                     {"or","#FFC212"},{"bleu-celeste","#0193DD"},};
     public string pattern
     {
       get
