@@ -46,6 +46,7 @@ namespace Arms
         {"ermine", "tincture"},
         {"vair", "tincture"},
         {"per", "division"},
+        {"quarterly", "division"},
         {"fess", "ordinary"},
         {"chief", "ordinary"},
         {"pile", "ordinary"},
@@ -57,7 +58,7 @@ namespace Arms
         {"chevron", "ordinary"},
         {"pall", "ordinary"},
         {"pall-reversed", "ordinary"},
-        {"quarterly", "division"},
+        {"lozenge", "charge"},
         {"and", "grammar"}
       };
     private static Stack<Division> divStack = new Stack<Division>();
@@ -114,23 +115,41 @@ namespace Arms
       }
       return true;
     }
-    private static void ExecuteCommand(List<string> command, string commandType)
+    private static int ExecuteCommand(List<string> command, string commandType, int modifyingCharge)
     {
+      Console.WriteLine("Charges: {0} "+commandType,modifyingCharge);
       if(commandType=="grammar")
       {
         if(command[0]=="and")
         {
           divStack.Pop();
-          Console.WriteLine(divStack.Count);
           if(divStack.Peek().subdivisions.Length > 0)
           {
             divStack.Pop();
-            Console.WriteLine(divStack.Count);
           }
         }
       }
+      else if(commandType=="tincture")
+      {
+        if(modifyingCharge==0)
+        {
+          divStack.Peek().ExecuteCommand(command, commandType);
+        }
+        while(modifyingCharge > 0)
+        {
+          Console.WriteLine("in");
+          divStack.Peek().ExecuteCommand(command, commandType);
+          divStack.Pop();
+          modifyingCharge -= 1;
+        }
+        // modifyingCharge = ExecuteCommand(command,commandType,modifyingCharge);
+      }
       else
       {
+        if(commandType=="charge")
+        {
+          modifyingCharge += Int32.Parse(command[0]);
+        }
         Division[] newDivisions = divStack.Peek().ExecuteCommand(command, commandType);
         Array.Reverse(newDivisions);
         foreach(Division d in newDivisions)
@@ -138,6 +157,8 @@ namespace Arms
           divStack.Push(d);
         }
       }
+      Console.WriteLine(divStack.Count);
+      return modifyingCharge;
     }
     public static void Parse(string blazonString, Division div)
     {
@@ -148,7 +169,7 @@ namespace Arms
       Console.WriteLine(string.Join(" ",blazon));
       string commandType = termTypes[blazon[0]];
       List<string> command = new List<string> {};
-      bool modifyingCharge = false;
+      int modifyingCharge = 0;
       for(int i=0; i<blazon.Length; i++)
       {
         command.Add(blazon[i]);
@@ -177,14 +198,7 @@ namespace Arms
         if(complete)
         {
           Console.WriteLine("Executing: "+string.Join(" ",command));
-          ExecuteCommand(command, commandType);
-          modifyingCharge = commandType=="charge" ? true : modifyingCharge;
-
-          if(command[0]=="and" && modifyingCharge)
-          {
-            divStack.Pop();
-            modifyingCharge = false;
-          }
+          modifyingCharge = ExecuteCommand(command, commandType, modifyingCharge);
 
           commandType = "none";
           command = new List<string> {};

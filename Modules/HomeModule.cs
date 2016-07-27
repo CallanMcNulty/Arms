@@ -71,7 +71,7 @@ namespace Arms
       Get["/blazon/{blazon}"]= parameter => {
         string input = parameter.blazon;
         string newBlazon = input.Replace("+"," ");
-        List<Point> points = new List<Point> {new Point(20F,0F), new Point(0F,80F), new Point(50F,100F), new Point(100F,80F), new Point(80F,0F)};
+        List<Point> points = new List<Point> {new Point(0F,0F), new Point(0F,80F), new Point(50F,100F), new Point(100F,80F), new Point(100F,0F)};
         Polygon testPoly = new Polygon(points, 100F, 100F, 0F, 0F);
         Division div = new Division(testPoly);
         Parser.Parse(newBlazon, div);
