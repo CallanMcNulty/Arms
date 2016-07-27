@@ -76,14 +76,10 @@ namespace Arms
         }
         List<Polygon> shapes = this.shape.PartyPer(divType);
         _subdivisions = new Division[shapes.Count];
-        _subdivisions[0] = new Division(shapes[0]);
-        _subdivisions[1] = new Division(shapes[1]);
-        _subdivisions[2] = new Division(shapes[2]);
-        _subdivisions[3] = new Division(shapes[3]);
-        // for(int i=0; i<shapes.Count; i++)
-        // {
-        //   _subdivisions[i] = new Division(shapes[i]);
-        // }
+        for(int i=0; i<shapes.Count; i++)
+        {
+          _subdivisions[i] = new Division(shapes[i]);
+        }
         return _subdivisions;
       }
       return new Division[] {};

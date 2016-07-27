@@ -1,15 +1,16 @@
 var shapes = ["heater", "cartouche", "swiss", "iberian", "lozenge", "none"];
-var currentShape = 0;
+var currentShape = $("input#special-form").val();
 var shapeLoop = function(currentShape) {
   return shapes[Math.abs(currentShape % shapes.length)];
 }
 
-$(".shape").addClass(shapes[0]);
+$(".shape").addClass(shapes[currentShape]);
 
 $(".shape-right").click(function(){
   $(".shape").removeClass(shapeLoop(currentShape));
   currentShape++;
   $(".shape").addClass(shapeLoop(currentShape));
+  $("input#special-form:text").val(Math.abs(currentShape % shapes.length));
 })
 
 $(".shape-left").click(function(){
@@ -20,4 +21,10 @@ $(".shape-left").click(function(){
   $(".shape").removeClass(shapeLoop(currentShape));
   currentShape--;
   $(".shape").addClass(shapeLoop(currentShape));
+  $("input#special-form:text").val(Math.abs(currentShape % shapes.length));
+})
+
+$("form#form1").submit(function(event){
+  currentShape = $("input#special-form").val();
+  $(".shape").addClass(shapes[currentShape]);
 })

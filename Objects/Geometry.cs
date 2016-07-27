@@ -255,7 +255,7 @@ namespace Geometry
     }
     public Point GetCenter()
     {
-      int resolution = 1000;
+      int resolution = 100;
       Line[] horizLines = this.GetSectionLines(resolution, true);
       Line[] vertLines = this.GetSectionLines(resolution, false);
       float horizCenterSum = 0.0F;
