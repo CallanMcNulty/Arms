@@ -32,17 +32,99 @@ namespace Arms
         {"vert", "tincture"},
         {"per", "division"},
         {"fess", "ordinary"},
+        {"chief", "ordinary"},
+        {"pile", "ordinary"},
         {"pale", "ordinary"},
         {"bend", "ordinary"},
+        {"bend-sinister", "ordinary"},
         {"saltire", "ordinary"},
         {"cross", "ordinary"},
         {"chevron", "ordinary"},
         {"pall", "ordinary"},
-        {"quarterly", "division"}
+        {"pall-reversed", "ordinary"},
+        {"quarterly", "division"},
+        {"and", "grammar"}
       };
     private static Stack<Division> divStack = new Stack<Division>();
+    private static string GetFromDictionary(Dictionary<string,string> d, string searchTerm, string defaultString)
+    {
+      string val;
+      bool inDictionary = d.TryGetValue(searchTerm, out val);
+      val = inDictionary ? val : defaultString;
+      return val;
+    }
+    private static string GetTermType(string[] blazon, int index, string commandType)
+    {
+      string termType = GetFromDictionary(termTypes, blazon[index], "none");
+      // Term Type Exceptions
+      if(termType=="ordinary")
+      {
+        termType = commandType=="division" ? "division" : "charge";
+      }
+      if(blazon[index]=="and")
+      {
+        if(index>=2)
+        {
+          string oldTermType = GetFromDictionary(termTypes, blazon[index-2], "notTincture");
+          if(oldTermType=="tincture")
+          {
+            termType = "tincture";
+          }
+        }
+      }
+      if(termType=="none")
+      {
+        if(IsNumber(blazon[index]))
+        {
+          if(blazon[index-1]=="of")
+          {
+            termType = "tincture";
+          }
+          else
+          {
+            termType = "charge";
+          }
+        }
+      }
+      return termType;
+    }
+    private static bool IsNumber(string str)
+    {
+      foreach(char c in str)
+      {
+        if(c < '0' || c > '9')
+        {
+          return false;
+        }
+      }
+      return true;
+    }
+    private static void ExecuteCommand(List<string> command, string commandType)
+    {
+      if(commandType=="grammar")
+      {
+        if(command[0]=="and")
+        {
+          divStack.Pop();
+          if(divStack.Peek().subdivisions.Length > 0)
+          {
+            divStack.Pop();
+          }
+        }
+      }
+      else
+      {
+        Division[] newDivisions = divStack.Peek().ExecuteCommand(command, commandType);
+        Array.Reverse(newDivisions);
+        foreach(Division d in newDivisions)
+        {
+          divStack.Push(d);
+        }
+      }
+    }
     public static void Parse(string blazonString, Division div)
     {
+      Console.WriteLine("---NEW ARMS BEGIN---");
       divStack.Push(div);
       string[] blazon = FormatBlazon(blazonString);
       string commandType = termTypes[blazon[0]];
@@ -50,65 +132,48 @@ namespace Arms
       bool modifyingCharge = false;
       for(int i=0; i<blazon.Length; i++)
       {
-        // Console.WriteLine("Start "+blazon[i]);
-        string termType;
-        bool inDictionary = termTypes.TryGetValue(blazon[i], out termType);
-        termType = inDictionary ? termType : "charge";
-        if(termType=="ordinary")
+        command.Add(blazon[i]);
+        // Get Term Type
+        string termType = GetTermType(blazon, i, commandType);
+        Console.WriteLine(blazon[i]+": "+termType);
+        commandType = commandType=="none" ? termType : commandType;
+        // Check for command completeness
+        bool complete = false;
+        if(i==blazon.Length-1)
         {
-          termType = commandType=="division" ? "division" : "charge";
+          complete = true;
         }
-        bool ToPop = false;
-        if(blazon[i]=="and")
+        else if(termType=="division" && (command.Count==2 || commandType=="quarterly"))
         {
-          termType = "tincture";
-          if(i>=2)
-          {
-            string oldTermType;
-            inDictionary = termTypes.TryGetValue(blazon[i-2], out oldTermType);
-            oldTermType = inDictionary ? oldTermType : "notTincture";
-            if(oldTermType!="tincture")
-            {
-              // Console.WriteLine(divStack.Count);
-              ToPop = true;
-              // Console.WriteLine(divStack.Count);
-            }
-            termType = "no";
-          }
-        }
-        if(termType==commandType)
-        {
-          command.Add(blazon[i]);
+          complete = true;
         }
         else
         {
-          // Console.WriteLine(string.Join(" ",command));
-          // Console.WriteLine(commandType);
-          Division[] newDivisions = divStack.Peek().ExecuteCommand(command, commandType);
-          modifyingCharge = commandType=="charge" ? true : modifyingCharge;
-          Array.Reverse(newDivisions);
-          foreach(Division d in newDivisions)
-          {
-            divStack.Push(d);
-          }
-          commandType = termType;
-          command = new List<string> {blazon[i]};
+          string nextTermType = GetTermType(blazon, i+1, commandType);
+          complete = nextTermType!=commandType ? true : complete;
         }
-        if(ToPop)
+
+        // Execute command if complete
+        if(complete)
         {
-          divStack.Pop();
-          if(modifyingCharge)
+          Console.WriteLine("Executing: "+string.Join(" ",command));
+          ExecuteCommand(command, commandType);
+          modifyingCharge = commandType=="charge" ? true : modifyingCharge;
+
+          if(command[0]=="and" && modifyingCharge)
           {
             divStack.Pop();
             modifyingCharge = false;
           }
-          ToPop = false;
+
+          commandType = "none";
+          command = new List<string> {};
         }
+        Console.WriteLine("Finished with Term");
       }
-      // Console.WriteLine(string.Join(" ",command));
-      // Console.WriteLine(commandType);
-      divStack.Peek().ExecuteCommand(command, commandType);
+      Console.WriteLine("---------");
     }
+
     public static string[] FormatBlazon(string newBlazon)
     {
 

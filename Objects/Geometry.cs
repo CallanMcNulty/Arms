@@ -408,7 +408,15 @@ namespace Geometry
       {
         return this.Party(new Line(center, new Point(100, center.Y) ));
       }
-      if(partitionType=="quarterly")
+      if(partitionType=="bend")
+      {
+        return this.Party(new Line(center, new Point(center.X-1, center.Y+1) ));
+      }
+      if(partitionType=="bend-sinister")
+      {
+        return this.Party(new Line(center, new Point(center.X+1, center.Y+1) ));
+      }
+      if(partitionType=="quarterly" || partitionType=="cross")
       {
         List<Polygon> result = new List<Polygon> {};
         foreach(Polygon poly in this.PartyPer("fess"))
