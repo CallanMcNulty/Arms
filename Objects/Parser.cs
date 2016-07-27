@@ -140,6 +140,7 @@ namespace Arms
       Console.WriteLine("---NEW ARMS BEGIN---");
       divStack.Push(div);
       string[] blazon = FormatBlazon(blazonString);
+      Console.WriteLine(string.Join(" ",blazon));
       string commandType = termTypes[blazon[0]];
       List<string> command = new List<string> {};
       bool modifyingCharge = false;

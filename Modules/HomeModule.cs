@@ -50,13 +50,20 @@ namespace Arms
         List<Point> points = new List<Point> {new Point(0F,0F), new Point(0F,80F), new Point(50F,100F), new Point(100F,80F), new Point(100F,0F)};
         Polygon testPoly = new Polygon(points, 100F, 100F, 0F, 0F);
         Division div = new Division(testPoly);
-        Parser.Parse("per pale sable one pall-reversed argent and per fess gules one saltire argent and vert one pall argent", div);
+        Parser.Parse("quarterly gules a pile purpure and or a bend azure and vert a chevron bleu-celeste and sable a saltire argent", div);
         dynamic Model = new ExpandoObject();
         Model.html = GenerateHTML(div);
         return View["index.sshtml", Model];
       };
-      Post["blazon"]= _ => {
-        string newBlazon = Request.Form["blazon-string"];
+      Post["/blazon"] =_=> {
+        string input = Request.Form["blazon-string"];
+        string formattedBlazon = string.Join("+",Parser.FormatBlazon(input));
+        string path = "/blazon/"+formattedBlazon;
+        return Response.AsRedirect(path);
+      };
+      Get["/blazon/{blazon}"]= parameter => {
+        string input = parameter.blazon;
+        string newBlazon = input.Replace("+"," ");
         List<Point> points = new List<Point> {new Point(0F,0F), new Point(0F,80F), new Point(50F,100F), new Point(100F,80F), new Point(100F,0F)};
         Polygon testPoly = new Polygon(points, 100F, 100F, 0F, 0F);
         Division div = new Division(testPoly);

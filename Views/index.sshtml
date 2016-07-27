@@ -34,7 +34,7 @@
 
 
       <div class="form-box">
-        <form action="blazon" method="post">
+        <form action="/blazon" method="post">
           <input type="text" name="blazon-string">
           <input hidden name="div-value" value="height: 500px; width: 400px; position: relative;">
           <button name="submit">submit</button>

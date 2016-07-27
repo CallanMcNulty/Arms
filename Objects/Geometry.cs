@@ -419,10 +419,15 @@ namespace Geometry
       if(partitionType=="quarterly" || partitionType=="cross")
       {
         List<Polygon> result = new List<Polygon> {};
-        foreach(Polygon poly in this.PartyPer("fess"))
-        {
-          result.AddRange(poly.PartyPer("pale"));
-        }
+        List<Polygon> fesses = this.PartyPer("fess");
+        List<Polygon> fess1 = fesses[0].PartyPer("pale");
+        // fess1.Reverse();
+        result.AddRange(fess1);
+        List<Polygon> fess2 = fesses[1].PartyPer("pale");
+        // fess2.Reverse();
+        result.AddRange(fess2);
+        // result.Reverse();
+
         for(int i=0; i<result.Count; i++)
         {
           if(i<2)
@@ -431,7 +436,7 @@ namespace Geometry
           }
           else
           {
-            result[i].height = _height-center.Y;
+            result[i].height = 100F-center.Y;
             result[i].offsetY = center.Y;
           }
         }
