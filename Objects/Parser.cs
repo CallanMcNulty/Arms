@@ -43,6 +43,8 @@ namespace Arms
         {"bleu-celeste", "tincture"},
         {"amaranth", "tincture"},
         {"or", "tincture"},
+        {"ermine", "tincture"},
+        {"vair", "tincture"},
         {"per", "division"},
         {"fess", "ordinary"},
         {"chief", "ordinary"},
@@ -119,9 +121,11 @@ namespace Arms
         if(command[0]=="and")
         {
           divStack.Pop();
+          Console.WriteLine(divStack.Count);
           if(divStack.Peek().subdivisions.Length > 0)
           {
             divStack.Pop();
+            Console.WriteLine(divStack.Count);
           }
         }
       }
@@ -138,6 +142,7 @@ namespace Arms
     public static void Parse(string blazonString, Division div)
     {
       Console.WriteLine("---NEW ARMS BEGIN---");
+      divStack.Clear();
       divStack.Push(div);
       string[] blazon = FormatBlazon(blazonString);
       Console.WriteLine(string.Join(" ",blazon));
@@ -149,6 +154,7 @@ namespace Arms
         command.Add(blazon[i]);
         // Get Term Type
         string termType = GetTermType(blazon, i, commandType);
+        Console.WriteLine("Stack Size: {0}",divStack.Count);
         Console.WriteLine(blazon[i]+": "+termType);
         commandType = commandType=="none" ? termType : commandType;
         // Check for command completeness
@@ -157,7 +163,7 @@ namespace Arms
         {
           complete = true;
         }
-        else if(termType=="division" && (command.Count==2 || commandType=="quarterly"))
+        else if(termType=="division" && (command.Count==2 || blazon[i]=="quarterly"))
         {
           complete = true;
         }
