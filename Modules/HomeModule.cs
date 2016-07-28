@@ -10,9 +10,29 @@ namespace Arms
 {
   public class HomeModule : NancyModule
   {
-    // private string[] shapeDimensions = {"List<Point> points = new List<Point> {new Point(50F,0F), new Point(100F,50F), new Point(50F,100F), new Point(0F,50F)};
-    //     Polygon testPoly = new Polygon(points, 100F, 96F, 0F, 0F);", List<Point> points = new List<Point> {new Point(0F,50F), new Point(10F, 10F), new Point(50F, 0F), new Point(90F, 10F), new Point(100F, 50F), new Point(90F, 90F), new Point(50F, 100F), new Point(10F, 90F)};
-    // Polygon testPoly = new Polygon(points, 85F, 96F, 6.5F, 0F);};
+    public static Polygon GetShieldPoly(int shieldNumber)
+    {
+      Polygon shieldPoly;
+      if (shieldNumber == 4)
+      {
+        List<Point> shieldShape = new List<Point> {new Point(50F,0F), new Point(100F,50F), new Point(50F,100F), new Point(0F,50F)};
+
+         shieldPoly = new Polygon(shieldShape, 100F, 96F, 0F, 0F);
+      }
+      else if (shieldNumber == 1)
+      {
+        List<Point> shieldShape = new List<Point>{new Point(0F,50F), new Point(10F, 10F), new Point(50F, 0F), new Point(90F, 10F), new Point(100F, 50F), new Point(90F, 90F), new Point(50F, 100F), new Point(10F, 90F)};
+
+         shieldPoly = new Polygon(shieldShape, 85F, 96F, 6.5F, 0F);
+      }
+      else
+      {
+        List<Point> shieldShape = new List<Point>{new Point(0F,0F), new Point(0F,80F), new Point(25, 100), new Point(50F,100F), new Point(75, 100), new Point(100F,80F), new Point(100F,0F)};
+
+         shieldPoly = new Polygon(shieldShape, 85F, 96F, 6.5F, 0F);
+      }
+      return shieldPoly;
+    }
     private string GenerateHTML(Division division)
     {
       string result = "<div style=' height:"+division.shape.height+"%; "+
@@ -73,11 +93,16 @@ namespace Arms
         return Response.AsRedirect(path);
       };
       Get["/blazon/{blazon}/shieldShape/{shieldShape}"]= parameter => {
+        int shieldNumber = parameter.shieldShape;
         string input = parameter.blazon;
         string newBlazon = input.Replace("+"," ");
-        List<Point> points = new List<Point> {new Point(0F,50F), new Point(10F, 10F), new Point(50F, 0F), new Point(90F, 10F), new Point(100F, 50F), new Point(90F, 90F), new Point(50F, 100F), new Point(10F, 90F)};
-        Polygon testPoly = new Polygon(points, 85F, 96F, 6.5F, 0F);
-        Division div = new Division(testPoly);
+        // List<Point> points = new List<Point> {new Point(0F,50F), new Point(10F, 10F), new Point(50F, 0F), new Point(90F, 10F), new Point(100F, 50F), new Point(90F, 90F), new Point(50F, 100F), new Point(10F, 90F)};
+        // Polygon testPoly = new Polygon(points, 85F, 96F, 6.5F, 0F);
+
+
+        // List<Point> points = new List<Point> {new Point(0F,0F), new Point(0F,80F), new Point(25, 100), new Point(50F,100F), new Point(75, 100), new Point(100F,80F), new Point(100F,0F)};
+        // Polygon testPoly = new Polygon(points, 85F, 100F, 5F, 0F);
+        Division div = new Division(GetShieldPoly(shieldNumber));
         Parser.Parse(newBlazon, div);
         dynamic Model = new ExpandoObject();
         Model.html = GenerateHTML(div);

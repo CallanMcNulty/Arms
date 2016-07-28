@@ -5,6 +5,7 @@ var shapeLoop = function(currentShape) {
 }
 
 $(".shape").addClass(shapes[currentShape]);
+console.log("Current shape is " + currentShape);
 
 $(".shape-right").click(function(){
   $(".shape").removeClass(shapeLoop(currentShape));
@@ -14,13 +15,18 @@ $(".shape-right").click(function(){
 })
 
 $(".shape-left").click(function(){
+  console.log(shapes);
   if(currentShape === 0) {
     currentShape = shapes.length;
+    console.log(currentShape);
   }
 
   $(".shape").removeClass(shapeLoop(currentShape));
+  console.log("Removed " + currentShape);
   currentShape--;
+  console.log("Current shape is " + currentShape);
   $(".shape").addClass(shapeLoop(currentShape));
+  console.log("Added " + currentShape);
   $("input#special-form:text").val(Math.abs(currentShape % shapes.length));
 })
 

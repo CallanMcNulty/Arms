@@ -5,7 +5,7 @@ namespace Arms
 {
   public class Parser
   {
-    private static string[] hyphenate = new string[] {"bend sinister", "pall reversed", "blue celeste"};
+    private static string[] hyphenate = new string[] {"bend sinister", "pall reversed", "bleu celeste"};
     private static Dictionary<string, string> numberTable = new Dictionary<string, string> {
         {"a", "1"},
         {"an", "1"},

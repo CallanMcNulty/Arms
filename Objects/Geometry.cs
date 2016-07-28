@@ -228,7 +228,7 @@ namespace Geometry
     public Line[] GetSectionLines(int number, bool horiz)
     {
       Line[] result = new Line[number];
-      float chunk = horiz ? _height/(float)(number+1) : _width/(float)(number+1);
+      float chunk = 100/(float)(number+1);
       for(int i=1; i<number+1; i++)
       {
         float staticDimension = (float)i*chunk;

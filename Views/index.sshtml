@@ -26,7 +26,7 @@
     <div class="container">
 
       <div class="shield-box">
-        <div class="shape cartouche"></div>
+        <div class="shape"></div>
         <div class="shield">
           <div id="shield" style="height: 500px; width: 400px; position: relative;"></div>
         </div>
