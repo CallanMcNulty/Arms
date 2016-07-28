@@ -228,7 +228,7 @@ namespace Geometry
     public Line[] GetSectionLines(int number, bool horiz)
     {
       Line[] result = new Line[number];
-      float chunk = horiz ? _height/(float)(number+1) : _width/(float)(number+1);
+      float chunk = 100F/(float)(number+1);
       for(int i=1; i<number+1; i++)
       {
         float staticDimension = (float)i*chunk;
@@ -269,6 +269,11 @@ namespace Geometry
       float resultY = vertCenterSum / resolution;
       return new Point(resultX, resultY);
     }
+    public Point GetCenterAbsolute()
+    {
+      Point center = this.GetCenter();
+      return new Point(_width*100F/center.X+_offset_x, _height*100F/center.Y+_offset_y);
+    }
     public Dictionary<string, object> GetSideIntersections(Line intersectLine)
     {
       Point intersection1 = null;
@@ -292,7 +297,7 @@ namespace Geometry
               intersection1 = possibleIntersection;
               intersectSide1 = side;
             }
-            else
+            else if(!(possibleIntersection.X==intersection1.X && possibleIntersection.Y==intersection1.Y))
             {
               intersection2 = possibleIntersection;
               intersectSide2 = side;
@@ -316,8 +321,12 @@ namespace Geometry
       //test if new points are already present
       bool p1Overlap = false;
       bool p2Overlap = false;
+      Console.WriteLine("----");
+      Console.WriteLine(point1);
+      Console.WriteLine(point2);
       foreach(Point vertex in vertices)
       {
+        Console.WriteLine(vertex);
         if(vertex==point1)
         {
           p1Overlap = true;
@@ -365,6 +374,8 @@ namespace Geometry
         }
         newPolygonPointLists[i] = currentPointList;
       }
+      Console.WriteLine("Point List 1: {0}",newPolygonPointLists[0].Count);
+      Console.WriteLine("Point List 2: {0}",newPolygonPointLists[1].Count);
       //calculate new polygon data
       List<Polygon> result = new List<Polygon> {};
       foreach(List<Point> polygonPoints in newPolygonPointLists)
@@ -405,6 +416,7 @@ namespace Geometry
     public List<Polygon> PartyPer(string partitionType)
     {
       Point center = this.GetCenter();
+      Console.WriteLine("Center at Partition {0}",center);
       if(partitionType=="pale")
       {
         return this.Party(new Line(center, new Point(center.X, 100) ));
