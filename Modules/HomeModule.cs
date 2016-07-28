@@ -86,7 +86,8 @@ namespace Arms
         Model.html = GenerateHTML(div);
         Model.shieldShape = 1;
         Model.newBlazon = defaultBlazon;
-        return View["index.sshtml", Model];
+        Model.allBlazons = SaveBlazon.GetAll();
+        return View["index.cshtml", Model];
       };
       Post["/blazon"] =_=> {
         string input = Request.Form["blazon-string"];
@@ -105,7 +106,27 @@ namespace Arms
         Model.html = GenerateHTML(div);
         Model.shieldShape = parameter.shieldShape;
         Model.newBlazon = newBlazon;
-        return View["index.sshtml", Model];
+        Model.allBlazons = SaveBlazon.GetAll();
+        return View["index.cshtml", Model];
+      };
+      Post["/save"]= _ => {
+        string blazonName = Request.Form["blazon-name"];
+        string blazonBlazon = Request.Form["blazon-blazon"];
+        SaveBlazon newSaveBlazon = new SaveBlazon(blazonName, blazonBlazon);
+        newSaveBlazon.Save();
+        string formattedBlazon = blazonBlazon.Replace(" ", "+");
+        string path = "/blazon/"+formattedBlazon+"/shieldShape/0";
+        return Response.AsRedirect(path);
+      };
+      Post["/delete"]= _ => {
+        string blazonName = Request.Form["blazon-name"];
+        string blazonBlazon = Request.Form["blazon-blazon"];
+        int BlazonId = Request.Form["delete"];
+        SaveBlazon newSaveBlazon = new SaveBlazon(blazonName, blazonBlazon);
+        newSaveBlazon.Delete();
+        string formattedBlazon = blazonBlazon.Replace(" ", "+");
+        string path = "/blazon/"+formattedBlazon+"/shieldShape/0";
+        return Response.AsRedirect(path);
       };
     }
   }

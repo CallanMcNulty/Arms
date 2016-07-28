@@ -38,8 +38,14 @@
         <form action="/blazon" method="post" id="form1">
           <input type="text" name="blazon-string" value="@Model.newBlazon">
           <input hidden name="div-value" value="height: 500px; width: 400px; position: relative;">
-          <input type="text" name="shield-shape" id="special-form" value="@Model.shieldShape">
+          <input type="text" hidden name="shield-shape" id="special-form" value="@Model.shieldShape">
           <button name="submit">submit</button>
+        </form>
+        <form action = "/save" method = "post">
+          <label>Name your new Coat of Arms</label>
+          <input type="text" name="blazon-name">
+          <input hdden type="text" name="blazon-blazon" value="@Model.newBlazon">
+        <button name="button">Save</button>
         </form>
       </div>
 
@@ -52,6 +58,20 @@
           <button class="buttons shape-right" name="submit" form="form1">
             <img src="http://localhost:5004/content/img/right.png" alt="right arrow">
           </button> <!-- button right -->
+
+
+          <h1>Saved Blazons</h1>
+          </br>
+          <ol>@foreach(var blazon in @Model.allBlazons)
+          {
+            <li></a>@blazon.name | @blazon.blazon</li>
+          }
+          <button type="button" name="button"></button>
+          </ol>
+          <form action="delete" method="post">
+            <button type="submit" name="button"></button>
+          </form>
+
 
       </div> <!-- menu -->
     </div><!-- container -->
