@@ -44,7 +44,7 @@
         <form action = "/save" method = "post">
           <label>Name your new Coat of Arms</label>
           <input type="text" name="blazon-name">
-          <input hdden type="text" name="blazon-blazon" value="@Model.newBlazon">
+          <input hidden type="text" name="blazon-blazon" value="@Model.newBlazon">
         <button name="button">Save</button>
         </form>
       </div>
@@ -64,12 +64,11 @@
           </br>
           <ol>@foreach(var blazon in @Model.allBlazons)
           {
-            <li></a>@blazon.name | @blazon.blazon</li>
+            <li><a href='/blazon/@blazon.blazon.Replace(" ", "+")/shieldShape/0'>@blazon.name </a>| @blazon.blazon</li>
           }
-          <button type="button" name="button"></button>
           </ol>
-          <form action="delete" method="post">
-            <button type="submit" name="button"></button>
+          <form action="/delete" method="post">
+            <button type="submit" name="button">DELETE ALL</button>
           </form>
 
 

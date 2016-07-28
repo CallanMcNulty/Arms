@@ -77,17 +77,9 @@ namespace Arms
     public HomeModule()
     {
       Get["/"] = _ => {
-        List<Point> points = new List<Point> {new Point(0F,0F), new Point(0F,80F), new Point(50F,100F), new Point(100F,80F), new Point(100F,0F)};
-        Polygon testPoly = new Polygon(points, 100F, 96F, 0F, 0F);
-        Division div = new Division(testPoly);
-        string defaultBlazon = "per pale per fess sable a chief or and purpure overall a bend argent and vert 11 mullets argent overall a lozenge azure";
-        Parser.Parse(defaultBlazon,div);
-        dynamic Model = new ExpandoObject();
-        Model.html = GenerateHTML(div);
-        Model.shieldShape = 1;
-        Model.newBlazon = defaultBlazon;
-        Model.allBlazons = SaveBlazon.GetAll();
-        return View["index.cshtml", Model];
+
+        string path = "/blazon/per+pale+per+fess+sable+a+chief+or+and+purpure+overall+a+bend+argent+and+vert+11+mullets+argent+overall+a+lozenge+azure/shieldShape/1";
+        return Response.AsRedirect(path);
       };
       Post["/blazon"] =_=> {
         string input = Request.Form["blazon-string"];
@@ -101,8 +93,8 @@ namespace Arms
         string input = parameter.blazon;
         string newBlazon = input.Replace("+"," ");
         Division div = new Division(GetShieldPoly(shieldNumber));
-        Parser.Parse(newBlazon, div);
         dynamic Model = new ExpandoObject();
+        Model.outputString = Parser.Parse(newBlazon, div);
         Model.html = GenerateHTML(div);
         Model.shieldShape = parameter.shieldShape;
         Model.newBlazon = newBlazon;
@@ -119,14 +111,11 @@ namespace Arms
         return Response.AsRedirect(path);
       };
       Post["/delete"]= _ => {
-        string blazonName = Request.Form["blazon-name"];
-        string blazonBlazon = Request.Form["blazon-blazon"];
-        int BlazonId = Request.Form["delete"];
-        SaveBlazon newSaveBlazon = new SaveBlazon(blazonName, blazonBlazon);
-        newSaveBlazon.Delete();
-        string formattedBlazon = blazonBlazon.Replace(" ", "+");
-        string path = "/blazon/"+formattedBlazon+"/shieldShape/0";
+        SaveBlazon.DeleteAll();
+
+        string path = "/blazon/per+pale+per+fess+sable+a+chief+or+and+purpure+overall+a+bend+argent+and+vert+11+mullets+argent+overall+a+lozenge+azure/shieldShape/1";
         return Response.AsRedirect(path);
+
       };
     }
   }

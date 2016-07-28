@@ -55,7 +55,7 @@ namespace Arms
     {
       if(commandType=="tincture")
       {
-        if(command[0]=="ermine" || command[0]=="vair")
+        if(command[0]=="ermine" || (command[0]=="vair" || command[0]=="potent"))
         {
           _field = new Field("fur", command.ToArray());
         }
