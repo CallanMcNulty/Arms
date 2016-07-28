@@ -10,7 +10,8 @@ body {
   justify-content: flex-end;
   position: absolute;
   right: 30px;
-  top: 50px; }
+  top: 50px;
+}
   .option-wrap div {
     display: flex;
     align-items: center;
@@ -23,6 +24,13 @@ body {
     margin: 1em;
     font-size: 1.25em;
     border-radius: 10px;
+    transition-property: background, color;
+    transition: all .5s;
+  }
+
+  .option-wrap div:hover {
+    background: white;
+    color: black;
   }
 
 
@@ -33,7 +41,7 @@ body {
 .results {
   position: absolute;
   top: 300px;
-  left: 1800px;
+  left: 65%;
 }
 
 * {
@@ -80,10 +88,11 @@ form {
 
 
 
-
 .shield-box {
   width: 400px;
   height: 500px;
+  border: 10px solid black;
+  margin: 2em;
 }
 
 .shape {
@@ -92,6 +101,8 @@ form {
   margin-left: 0px;
   width: 400px;
   height: 500px;
+  transition: all 1s;
+
 }
 
 .cartouche {
@@ -129,9 +140,6 @@ form {
   background-position: center;
 }
 
-.none {
-
-}
 
 .shield {
   position: absolute;
@@ -142,26 +150,22 @@ form {
   height: 100%;
 }
 
-
-
-
-/**********************quick blazon***************/
-.quick-blazon {
-  display: none; }
-
-.added {
-  display: flex;
-  justify-content: flex-end;
+.epic {
+  font-size: 10em;
+  text-transform: uppercase;
   position: absolute;
-  top: 300px;
-  right: 100px; }
+  top: 4.5em;
+  left: 65px;
+  color: gold;
+}
+@media screen and (max-width: 2000px) {
+  .results {
+    left: 50%;
+  }
+}
 
-.selection-wrap {
-  width: 20vw;
-  height: 50vh;
-  border: 1px solid red; }
-
-.quick-results {
-  width: 30vw;
-  height: 50vh;
-  border: 1px solid red; }
+@media screen and (max-width: 1440px) {
+  .results {
+    left: 30%;
+  }
+}

@@ -3,33 +3,28 @@
   <head>
   <meta charset="utf-8">
   <link href="https://fonts.googleapis.com/css?family=Mirza" rel="stylesheet">
-  <link href="http://localhost:5004/content/css/application.css" rel="stylesheet" type="text/css">
+  <link href="http://localhost:5004/content/css/application.css" rel="stylesheet" type="text/css" media="screen">
   <script type="text/javascript">
     var insertHTML = function() {
       var s = "@Model.html";
       s = s.replace(/&lt;/g, "<");
       s = s.replace(/&gt;/g, ">");
+      console.log(s);
+
       document.getElementById("shield").innerHTML = s;
     }
   </script>
   </head>
   <body onload="insertHTML()" >
     <div class="main-container">
-          <!-- <div class='logo-wrap'>BLAZZZZZON</div> -->
+          <div class="epic">
+            <!-- epic blazon -->
+          </div>
           <div class='option-wrap'>
-            <!-- <button class="option1">Blazon</button>
-            <button class="rules">Rules</button>
-            <button class="option2">Quick Blazon</button> -->
             <div class="option1">Blazon</div>
             <div class="rules">Rules</div>
             <div class="option2">Quick Blazon</div>
           </div>
-          <!-- <div class="blazon-wrap">
-            <div class="input-wrap">
-              <input type="text" name="name" value="">
-              <button type="submit" name="button">Blaze It</button>
-            </div>
-          </div> -->
             <div class="results">
               <div class="image-fix">
                 <img src="http://localhost:5004/content/img/cartoucheborder.png" alt="shape fix, ignore">

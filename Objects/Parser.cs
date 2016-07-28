@@ -5,7 +5,7 @@ namespace Arms
 {
   public class Parser
   {
-    private static string[] hyphenate = new string[] {"bend sinister", "pall reversed", "blue celeste"};
+    private static string[] hyphenate = new string[] {"bend sinister", "pall reversed", "bleu celeste"};
     private static Dictionary<string, string> numberTable = new Dictionary<string, string> {
         {"a", "1"},
         {"an", "1"},
@@ -63,6 +63,7 @@ namespace Arms
         {"escutcheon", "charge"},
         {"mullet", "charge"},
         {"and", "grammar"},
+        {"on", "grammar"},
         {"overall", "grammar"},
         {"i", "grammar"},
         {"ii", "grammar"},
@@ -83,7 +84,11 @@ namespace Arms
       // Term Type Exceptions
       if(termType=="ordinary")
       {
-        termType = commandType=="division" ? "division" : "charge";
+        termType = "charge";
+        if(blazon[index]=="fess" || blazon[index]=="pale" || blazon[index]=="bend" || blazon[index]=="bend-sinister")
+        {
+          termType = commandType=="division" ? "division" : "charge";
+        }
       }
       if(blazon[index]=="and")
       {
@@ -123,37 +128,69 @@ namespace Arms
       }
       return true;
     }
-    private static int ExecuteCommand(List<string> command, string commandType, int modifyingCharge)
+    private static bool TryPop()
     {
-      Console.WriteLine("Charges: {0} "+commandType,modifyingCharge);
-      if(commandType=="grammar" && command[0]!="i")
+      if(divStack.Count>1)
       {
         divStack.Pop();
+        return true;
+      }
+      return false;
+    }
+    private static bool usingOn;
+    private static int ExecuteCommand(List<string> command, string commandType, int modifyingCharge)
+    {
+      if(modifyingCharge==-1){return modifyingCharge;}
+      Console.WriteLine("Charges: {0} "+commandType,modifyingCharge);
+      if(commandType=="grammar" && command[0]!="i" && command[0]!="on")
+      {
+        if(!TryPop()){return -1;}
         if(divStack.Peek().subdivisions.Length > 0 && command[0] != "overall")
         {
-          divStack.Pop();
+          if(!TryPop()){return -1;}
         }
+      }
+      else if(command[0]=="on")
+      {
+        usingOn = true;
       }
       else if(commandType=="tincture")
       {
+        if(command.Count > 1){return -1;}
+        if(command[0]=="and"){return -1;}
         if(modifyingCharge==0)
         {
           divStack.Peek().ExecuteCommand(command, commandType);
         }
         while(modifyingCharge > 0)
         {
-          Console.WriteLine("in");
           divStack.Peek().ExecuteCommand(command, commandType);
-          divStack.Pop();
+          if(!usingOn)
+          {
+            if(!TryPop()){return -1;}
+          }
+          else
+          {
+            usingOn = false;
+          }
           modifyingCharge -= 1;
         }
-        // modifyingCharge = ExecuteCommand(command,commandType,modifyingCharge);
       }
       else
       {
         if(commandType=="charge")
         {
-          modifyingCharge += Int32.Parse(command[0]);
+          if(command.Count != 2){return -1;}
+          int num;
+          if(!Int32.TryParse(command[0], out num)){return -1;}
+          int num2;
+          if(Int32.TryParse(command[1], out num2)){return -1;}
+          modifyingCharge += num;
+        }
+        if(commandType=="division")
+        {
+          if(command.Count != 2 && command[0]!="quarterly"){return -1;}
+          if(command[0]!="quarterly"){if(termTypes[command[1]]!="ordinary"){return -1;}}
         }
         Division[] newDivisions = divStack.Peek().ExecuteCommand(command, commandType);
         Array.Reverse(newDivisions);
@@ -165,6 +202,23 @@ namespace Arms
       Console.WriteLine(divStack.Count);
       return modifyingCharge;
     }
+    private static bool AllTermsInDict(string[] blazon)
+    {
+      foreach(string term in blazon)
+      {
+        int num;
+        bool isNum = Int32.TryParse(term, out num);
+        if(isNum && term==blazon[0])
+        {
+          return false;
+        }
+        if(!termTypes.ContainsKey(term) && !isNum)
+        {
+          return false;
+        }
+      }
+      return true;
+    }
     public static void Parse(string blazonString, Division div)
     {
       Console.WriteLine("---NEW ARMS BEGIN---");
@@ -172,9 +226,15 @@ namespace Arms
       divStack.Push(div);
       string[] blazon = FormatBlazon(blazonString);
       Console.WriteLine(string.Join(" ",blazon));
+      Console.WriteLine("on {0}", usingOn);
+      if(!AllTermsInDict(blazon))
+      {
+        return;
+      }
       string commandType = termTypes[blazon[0]];
       List<string> command = new List<string> {};
       int modifyingCharge = 0;
+      usingOn = false;
       for(int i=0; i<blazon.Length; i++)
       {
         command.Add(blazon[i]);
@@ -193,6 +253,10 @@ namespace Arms
         {
           complete = true;
         }
+        else if(blazon[i]=="on" || blazon[i+1]=="on")
+        {
+          complete = true;
+        }
         else
         {
           string nextTermType = GetTermType(blazon, i+1, commandType);
@@ -204,7 +268,7 @@ namespace Arms
         {
           Console.WriteLine("Executing: "+string.Join(" ",command));
           modifyingCharge = ExecuteCommand(command, commandType, modifyingCharge);
-
+          if(modifyingCharge==-1){return;}
           commandType = "none";
           command = new List<string> {};
         }
