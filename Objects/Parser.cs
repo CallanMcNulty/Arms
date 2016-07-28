@@ -81,7 +81,7 @@ namespace Arms
     {
       string termType = GetFromDictionary(termTypes, blazon[index], "none");
       // Term Type Exceptions
-      if(termType=="ordinary")
+      if(blazon[index]=="fess" || blazon[index]=="pale" || blazon[index]=="bend" || blazon[index]=="bend-sinister")
       {
         termType = commandType=="division" ? "division" : "charge";
       }
@@ -168,6 +168,8 @@ namespace Arms
           if(command.Count != 2){return -1;}
           int num;
           if(!Int32.TryParse(command[0], out num)){return -1;}
+          int num2;
+          if(Int32.TryParse(command[1], out num2)){return -1;}
           modifyingCharge += num;
         }
         if(commandType=="division")
@@ -191,6 +193,10 @@ namespace Arms
       {
         int num;
         bool isNum = Int32.TryParse(term, out num);
+        if(isNum && term==blazon[0])
+        {
+          return false;
+        }
         if(!termTypes.ContainsKey(term) && !isNum)
         {
           return false;

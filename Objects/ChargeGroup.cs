@@ -165,7 +165,7 @@ namespace Arms
           }
         }
         _chargesDivs[i] = new Division(newChargeDivShape);
-        _chargesDivs[i].field = inputField;
+        _chargesDivs[i].field = inputField ?? new Field("solid", new string[]{"argent"});
       }
     }
   }
