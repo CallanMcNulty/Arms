@@ -53,7 +53,11 @@ namespace Arms
         result += vertex.X.ToString()+"% "+vertex.Y.ToString()+"%, ";
       }
       result = result.Substring(0, result.Length-2);
-      result += ");'> ";
+      result += ");'";
+      if(division.field.pattern=="fur")
+      {
+        result += "class="+division.field.tinctures[0]+"> ";
+      }
       Console.WriteLine(result);
       foreach(Division sub in division.subdivisions)
       {
