@@ -59,7 +59,15 @@ namespace Arms
         {"pall", "ordinary"},
         {"pall-reversed", "ordinary"},
         {"lozenge", "charge"},
-        {"and", "grammar"}
+        {"inescutcheon", "charge"},
+        {"escutcheon", "charge"},
+        {"mullet", "charge"},
+        {"and", "grammar"},
+        {"overall", "grammar"},
+        {"i", "grammar"},
+        {"ii", "grammar"},
+        {"iii", "grammar"},
+        {"iv", "grammar"}
       };
     private static Stack<Division> divStack = new Stack<Division>();
     private static string GetFromDictionary(Dictionary<string,string> d, string searchTerm, string defaultString)
@@ -118,15 +126,12 @@ namespace Arms
     private static int ExecuteCommand(List<string> command, string commandType, int modifyingCharge)
     {
       Console.WriteLine("Charges: {0} "+commandType,modifyingCharge);
-      if(commandType=="grammar")
+      if(commandType=="grammar" && command[0]!="i")
       {
-        if(command[0]=="and")
+        divStack.Pop();
+        if(divStack.Peek().subdivisions.Length > 0 && command[0] != "overall")
         {
           divStack.Pop();
-          if(divStack.Peek().subdivisions.Length > 0)
-          {
-            divStack.Pop();
-          }
         }
       }
       else if(commandType=="tincture")

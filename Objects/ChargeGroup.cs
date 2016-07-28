@@ -142,11 +142,31 @@ namespace Arms
             addPosition += displayRows[j].GetLength();
             displayRow = displayRows[j];
           }
+          if(displayRow.GetLength()%paddingX < 0.01F && Number > displayRow.GetLength()/paddingX)
+          {
+            position -= paddingX/2;
+            // if(i>=Number/2+1)
+            // {
+            //   position += paddingX/2;
+            // }
+          }
           float positionOnRow = displayRow.GetLength() - (addPosition-position);
           Point displayPoint = new Point(displayRow.P1.X+positionOnRow, displayRow.P1.Y);
           if(chargeDevice == "lozenge")
           {
             newChargeDivShape = new Polygon(new List<Point> {new Point(0F,50F),new Point(50F,100F),new Point(100F,50F),new Point(50F,0F)}, paddingX*.6F, paddingY*.8F, displayPoint.X-(paddingX*.6F)/2F, displayPoint.Y-(paddingY*.8F)/2F);
+          }
+          if(chargeDevice == "mullet")
+          {
+            float chargeWidth = Math.Min(paddingX*.7F,paddingY*.7F);
+            float chargeHeight = Math.Min(paddingX*.5F,paddingY*.5F)*(_parent.shape.width/_parent.shape.height);
+            newChargeDivShape = new Polygon(new List<Point> {new Point(0F,40F),new Point(33.333F,62F),new Point(20F,100F),new Point(50F,80F),new Point(80F,100F),new Point(66.6666F,62F),new Point(100F,40F),new Point(62F,40F),new Point(50F,0F),new Point(38F,40F)}, chargeWidth, chargeHeight, displayPoint.X-chargeWidth/2F, displayPoint.Y-chargeHeight/2F);
+          }
+          if(chargeDevice == "inescutcheon" || chargeDevice == "escutcheon")
+          {
+            float chargeWidth = Math.Min(paddingX*.6F,paddingY*.6F);
+            float chargeHeight = Math.Min(paddingX*.6F,paddingY*.6F)*(_parent.shape.width/_parent.shape.height);
+            newChargeDivShape = new Polygon(new List<Point> {new Point(0F,0F), new Point(0F,80F), new Point(50F,100F), new Point(100F,80F), new Point(100F,0F)}, chargeWidth, chargeHeight, displayPoint.X-chargeWidth/2F, displayPoint.Y-chargeHeight/2F);
           }
         }
         _chargesDivs[i] = new Division(newChargeDivShape);
