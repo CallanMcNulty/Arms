@@ -56,9 +56,9 @@ namespace Arms
       result += ");'";
       if(division.field.pattern=="fur")
       {
-        result += "class="+division.field.tinctures[0]+"> ";
+        result += "class="+division.field.tinctures[0];
       }
-      Console.WriteLine(result);
+      result += "> ";
       foreach(Division sub in division.subdivisions)
       {
         result += GenerateHTML(sub);
@@ -71,6 +71,7 @@ namespace Arms
         }
       }
       result += "</div>";
+      // Console.WriteLine(result);
       return result;
     }
     public HomeModule()
