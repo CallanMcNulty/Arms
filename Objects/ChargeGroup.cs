@@ -42,8 +42,18 @@ namespace Arms
       Point center = _parent.shape.GetCenter();
       float centerOffsetX = center.X-(_parent.shape.width/2);
       float centerOffsetY = center.Y-(_parent.shape.height/2);
-      int numberOfDisplayRows = (int)Math.Floor(Math.Sqrt(Number));
-      Line[] displayRows = parent.shape.GetSectionLines(numberOfDisplayRows, true);
+      int numberOfDisplayRows;
+      Line[] displayRows;
+      if(Layout=="unspecified")
+      {
+        numberOfDisplayRows = (int)Math.Floor(Math.Sqrt(Number));
+        displayRows = parent.shape.GetSectionLines(numberOfDisplayRows, true);
+      }
+      else // if(Layout=="fess")
+      {
+        numberOfDisplayRows = 1;
+        displayRows = parent.shape.GetSectionLines(numberOfDisplayRows, true);
+      }
       float totalDisplayLength = 0F;
       foreach(Line l in displayRows)
       {
@@ -53,6 +63,7 @@ namespace Arms
       bool leftoverCharge = numberOfDisplayRows*chargesPerRow != Number;
       float paddingX = totalDisplayLength/(float)(Number+1);
       float paddingY = parent.shape.height/(numberOfDisplayRows+1);
+
       for(int i=0; i<_chargesDivs.Length; i++)
       {
         Polygon newChargeDivShape = null;
