@@ -13,6 +13,7 @@ namespace Arms
                                                                                      {"murrey","#991B41"},{"cendree","#b6ada5"},
                                                                                      {"brunatre","#AA8155"},{"amaranth","#bb16a3"},
                                                                                      {"or","#FFC212"},{"bleu-celeste","#0193DD"},};
+    private string _imgUrl;
     public string pattern
     {
       get
@@ -27,13 +28,27 @@ namespace Arms
         return _tinctures;
       }
     }
+    public string imgUrl
+    {
+      get
+      {
+        return _imgUrl;
+      }
+    }
     public Field(string Pattern, string[] Tinctures)
     {
       _pattern = Pattern;
       _tinctures = Tinctures;
-      for(int i=0; i<_tinctures.Length; i++)
+      if(_pattern=="fur")
       {
-        _tinctures[i] = hexDict[_tinctures[i]];
+        _imgUrl = "http://localhost:5004/content/img/"+Tinctures[0]+".png";
+      }
+      else
+      {
+        for(int i=0; i<_tinctures.Length; i++)
+        {
+          _tinctures[i] = hexDict[_tinctures[i]];
+        }
       }
     }
     public string GetHex(string tinct)

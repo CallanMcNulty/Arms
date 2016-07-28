@@ -1,0 +1,115 @@
+[33mcommit e686666a22dc9142e45711f0046e61d9f784c279[m
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Wed Jul 27 19:14:27 2016 -0400
+
+    Add lozenge charge, charge groups larger than one, and support for mobile charges
+
+[33mcommit b461500de142e83f1488902b3d8c753173b6a5f4[m
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Wed Jul 27 16:31:07 2016 -0400
+
+    Fix issue with divisions within quarters, begin adding per chevron divisions, refactor some partition code
+
+[33mcommit d5ed76d893a6b01a071c007fc9891d56abdaa369[m
+Merge: 00ceff7 39d1017
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Wed Jul 27 11:18:32 2016 -0400
+
+    Merge branch 'master' of https://github.com/CallanMcNulty/Arms
+
+[33mcommit 39d1017ae7c16e0ad1bcc13305ea162ba7eda614[m
+Merge: b110c34 e748395
+Author: Amanda Daly <techdaly@gmail.com>
+Date:   Wed Jul 27 08:17:04 2016 -0700
+
+    Merge pull request #2 from CallanMcNulty/amanda
+    
+    Added ermine and vair patterns
+
+[33mcommit e748395db297ed4b7332d9289d421680824f854f[m
+Author: Amanda Daly <techdaly@gmail.com>
+Date:   Wed Jul 27 08:16:53 2016 -0700
+
+    Added ermine and vair patterns
+
+[33mcommit 00ceff7e929e467f9efc1fa1b37e6843fb2cbcb0[m
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Wed Jul 27 11:00:19 2016 -0400
+
+    Updated path to use blazon terms
+
+[33mcommit 3b21dccfa42d7d2614d028d92d0319792e38b5c5[m
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Wed Jul 27 08:10:10 2016 -0400
+
+    Merge updated formatting with other code
+
+[33mcommit 98d749324e4bafd30e7a7fcc5929b67429ae551a[m
+Merge: b110c34 7acfc86
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Wed Jul 27 07:42:03 2016 -0400
+
+    Merge branch 'callan' of https://github.com/CallanMcNulty/Arms into callan
+
+[33mcommit 7acfc869c047a6199d3515348d6279f0ca96383a[m
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Tue Jul 26 20:49:14 2016 -0400
+
+    Refactor parsing code for greater simplicity, fix issue with not parsing multiple divisions declarations in a row
+
+[33mcommit b110c34c9ebd7f15e8b31e7b807120dbe31c997d[m
+Merge: 11163c6 3aa22c9
+Author: Amanda Daly <techdaly@gmail.com>
+Date:   Tue Jul 26 15:40:54 2016 -0700
+
+    Merge pull request #1 from CallanMcNulty/amanda
+    
+    Added content file and colors to parser
+
+[33mcommit 3aa22c9b2fb9e444d53e64d3ad7f298c30e46619[m
+Author: Amanda Daly <techdaly@gmail.com>
+Date:   Tue Jul 26 15:39:31 2016 -0700
+
+    Added content file and colors to parser
+
+[33mcommit e7bbfe85fb14a31bf4ce8d44e60e596447176e91[m
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Tue Jul 26 17:25:23 2016 -0400
+
+    Add support for pall-reversed
+
+[33mcommit 11163c6461f8e2d4cfa9edae21b77d6b5d843cb1[m
+Author: Alan Denison <alan79td@gmail.com>
+Date:   Tue Jul 26 13:55:06 2016 -0700
+
+    add form  on main page
+
+[33mcommit 0cbeabae75688b42eecb966c7deb61d6aecc1b54[m
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Tue Jul 26 16:24:20 2016 -0400
+
+    Add support for chevron and pall
+
+[33mcommit c60e900edc94ccab07a7efdd7a2b6ef796e4cb23[m
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Tue Jul 26 15:01:34 2016 -0400
+
+    Add ability to parse ordinaries as charges and divisions, add support for bend, cross, and saltire
+
+[33mcommit fa6fc09cbb5595cedd626073e2412db7a46d3d1d[m
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Tue Jul 26 01:27:33 2016 -0400
+
+    Fix issue with shield not resizing to parent div, fix issue with parent and child clipping not matching, add ability for display on non-windows systems
+
+[33mcommit 0e20ce9c45df91e7b8f1d71888d3f3ad3ad35fcd[m
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Mon Jul 25 16:10:23 2016 -0700
+
+    Add html output, add basic blazon parsing
+
+[33mcommit 9d223ac3f3b31d8a7cddea761cf55123249640a5[m
+Author: Callan McNulty <jabberwocky222@gmail.com>
+Date:   Mon Jul 25 01:22:08 2016 -0400
+
+    Set up most classes

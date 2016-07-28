@@ -369,29 +369,34 @@ namespace Geometry
       List<Polygon> result = new List<Polygon> {};
       foreach(List<Point> polygonPoints in newPolygonPointLists)
       {
-        float minX = 100F;
-        float maxX = 0F;
-        float minY = 100F;
-        float maxY = 0F;
-        foreach(Point vertex in polygonPoints)
-        {
-          minX = vertex.X < minX ? vertex.X : minX;
-          maxX = vertex.X > maxX ? vertex.X : maxX;
-          minY = vertex.Y < minY ? vertex.Y : minY;
-          maxY = vertex.Y > maxY ? vertex.Y : maxY;
-        }
-        float newWidth = (maxX-minX);
-        float newHeight = (maxY-minY);
-        foreach(Point vertex in polygonPoints)
-        {
-          vertex.X = vertex.X - minX;
-          vertex.Y = vertex.Y - minY;
-          vertex.X = vertex.X * (100/newWidth);
-          vertex.Y = vertex.Y * (100/newHeight);
-        }
-        result.Add(new Polygon(polygonPoints,newWidth,newHeight,minX,minY));
+        Dictionary<string,object> newVals = RecalculateVertices(polygonPoints);
+        result.Add(new Polygon((List<Point>)newVals["newVertices"],(float)newVals["newWidth"],(float)newVals["newHeight"],(float)newVals["minX"],(float)newVals["minY"]));
       }
       return result;
+    }
+    private static Dictionary<string,object> RecalculateVertices(List<Point> polygonPoints)
+    {
+      float minX = 200F;
+      float maxX = -100F;
+      float minY = 200F;
+      float maxY = -100F;
+      foreach(Point vertex in polygonPoints)
+      {
+        minX = vertex.X < minX ? vertex.X : minX;
+        maxX = vertex.X > maxX ? vertex.X : maxX;
+        minY = vertex.Y < minY ? vertex.Y : minY;
+        maxY = vertex.Y > maxY ? vertex.Y : maxY;
+      }
+      float newWidth = (maxX-minX);
+      float newHeight = (maxY-minY);
+      foreach(Point vertex in polygonPoints)
+      {
+        vertex.X = vertex.X - minX;
+        vertex.Y = vertex.Y - minY;
+        vertex.X = vertex.X * (100/newWidth);
+        vertex.Y = vertex.Y * (100/newHeight);
+      }
+      return new Dictionary<string,object> { {"newVertices",polygonPoints},{"newHeight",newHeight},{"newWidth",newWidth},{"minX",minX},{"minY",minY}};
     }
     private List<Polygon> Party(Line partition)
     {
@@ -416,18 +421,56 @@ namespace Geometry
       {
         return this.Party(new Line(center, new Point(center.X+1, center.Y+1) ));
       }
+      if(partitionType=="chevron")
+      {
+        Line horiz = new Line(new Point(0F, center.Y+15F), new Point(100F, center.Y+15) );
+        List<Polygon> fesses = this.Party(horiz);
+        for(int p=0; p<2; p++)
+        {
+          int insertPosition = 0;
+          for(int i=0; i<fesses[p].vertices.Count; i++)
+          {
+            if(fesses[p].vertices[i].Y==100F*Math.Abs(p-1) && fesses[p].vertices[i].X > fesses[p].vertices[insertPosition].Y)
+            {
+              insertPosition = i;
+            }
+          }
+          // if(Math.Abs(fesses[p].vertices[i].X-horiz.P2.X)<0.001F && Math.Abs(fesses[p].vertices[i].Y-100F*Math.Abs(p-1))<0.001F)
+          // {
+          // }
+          Point chevronCenter = new Point(center.X, 100*Math.Abs(p-1)-fesses[p].height*.15F);
+          if(insertPosition==vertices.Count-1)
+          {
+            fesses[p].vertices.Insert(0, chevronCenter);
+          }
+          else
+          {
+            fesses[p].vertices.Insert(insertPosition, chevronCenter);
+          }
+        }
+        Dictionary<string, object> vals1 = RecalculateVertices(fesses[0].vertices);
+        Dictionary<string, object> vals2 = RecalculateVertices(fesses[1].vertices);
+        List<Polygon> result = new List<Polygon> {new Polygon((List<Point>)vals1["newVertices"],fesses[0].width,fesses[0].height,fesses[0].offsetX,fesses[0].offsetY),
+                                                  new Polygon((List<Point>)vals2["newVertices"],fesses[1].width,fesses[1].height,fesses[1].offsetX,fesses[1].offsetY)};
+        return result;
+      }
       if(partitionType=="quarterly" || partitionType=="cross")
       {
         List<Polygon> result = new List<Polygon> {};
         List<Polygon> fesses = this.PartyPer("fess");
         List<Polygon> fess1 = fesses[0].PartyPer("pale");
-        // fess1.Reverse();
         result.AddRange(fess1);
         List<Polygon> fess2 = fesses[1].PartyPer("pale");
-        // fess2.Reverse();
         result.AddRange(fess2);
-        // result.Reverse();
 
+        result[0].offsetX = result[0].offsetX/100F*fesses[0].width+fesses[0].offsetX;
+        result[0].width = (fesses[0].width/100)*result[0].width;
+        result[1].offsetX = result[1].offsetX/100F*fesses[0].width+fesses[0].offsetX;
+        result[1].width = (fesses[0].width/100)*result[1].width;
+        result[2].offsetX = result[2].offsetX/100F*fesses[1].width+fesses[1].offsetX;
+        result[2].width = (fesses[1].width/100)*result[2].width;
+        result[3].offsetX = result[3].offsetX/100F*fesses[1].width+fesses[1].offsetX;
+        result[3].width = (fesses[1].width/100)*result[3].width;
         for(int i=0; i<result.Count; i++)
         {
           if(i<2)

@@ -43,7 +43,10 @@ namespace Arms
         {"bleu-celeste", "tincture"},
         {"amaranth", "tincture"},
         {"or", "tincture"},
+        {"ermine", "tincture"},
+        {"vair", "tincture"},
         {"per", "division"},
+        {"quarterly", "division"},
         {"fess", "ordinary"},
         {"chief", "ordinary"},
         {"pile", "ordinary"},
@@ -55,8 +58,16 @@ namespace Arms
         {"chevron", "ordinary"},
         {"pall", "ordinary"},
         {"pall-reversed", "ordinary"},
-        {"quarterly", "division"},
-        {"and", "grammar"}
+        {"lozenge", "charge"},
+        {"inescutcheon", "charge"},
+        {"escutcheon", "charge"},
+        {"mullet", "charge"},
+        {"and", "grammar"},
+        {"overall", "grammar"},
+        {"i", "grammar"},
+        {"ii", "grammar"},
+        {"iii", "grammar"},
+        {"iv", "grammar"}
       };
     private static Stack<Division> divStack = new Stack<Division>();
     private static string GetFromDictionary(Dictionary<string,string> d, string searchTerm, string defaultString)
@@ -112,21 +123,38 @@ namespace Arms
       }
       return true;
     }
-    private static void ExecuteCommand(List<string> command, string commandType)
+    private static int ExecuteCommand(List<string> command, string commandType, int modifyingCharge)
     {
-      if(commandType=="grammar")
+      Console.WriteLine("Charges: {0} "+commandType,modifyingCharge);
+      if(commandType=="grammar" && command[0]!="i")
       {
-        if(command[0]=="and")
+        divStack.Pop();
+        if(divStack.Peek().subdivisions.Length > 0 && command[0] != "overall")
         {
           divStack.Pop();
-          if(divStack.Peek().subdivisions.Length > 0)
-          {
-            divStack.Pop();
-          }
         }
+      }
+      else if(commandType=="tincture")
+      {
+        if(modifyingCharge==0)
+        {
+          divStack.Peek().ExecuteCommand(command, commandType);
+        }
+        while(modifyingCharge > 0)
+        {
+          Console.WriteLine("in");
+          divStack.Peek().ExecuteCommand(command, commandType);
+          divStack.Pop();
+          modifyingCharge -= 1;
+        }
+        // modifyingCharge = ExecuteCommand(command,commandType,modifyingCharge);
       }
       else
       {
+        if(commandType=="charge")
+        {
+          modifyingCharge += Int32.Parse(command[0]);
+        }
         Division[] newDivisions = divStack.Peek().ExecuteCommand(command, commandType);
         Array.Reverse(newDivisions);
         foreach(Division d in newDivisions)
@@ -134,21 +162,25 @@ namespace Arms
           divStack.Push(d);
         }
       }
+      Console.WriteLine(divStack.Count);
+      return modifyingCharge;
     }
     public static void Parse(string blazonString, Division div)
     {
       Console.WriteLine("---NEW ARMS BEGIN---");
+      divStack.Clear();
       divStack.Push(div);
       string[] blazon = FormatBlazon(blazonString);
       Console.WriteLine(string.Join(" ",blazon));
       string commandType = termTypes[blazon[0]];
       List<string> command = new List<string> {};
-      bool modifyingCharge = false;
+      int modifyingCharge = 0;
       for(int i=0; i<blazon.Length; i++)
       {
         command.Add(blazon[i]);
         // Get Term Type
         string termType = GetTermType(blazon, i, commandType);
+        Console.WriteLine("Stack Size: {0}",divStack.Count);
         Console.WriteLine(blazon[i]+": "+termType);
         commandType = commandType=="none" ? termType : commandType;
         // Check for command completeness
@@ -157,7 +189,7 @@ namespace Arms
         {
           complete = true;
         }
-        else if(termType=="division" && (command.Count==2 || commandType=="quarterly"))
+        else if(termType=="division" && (command.Count==2 || blazon[i]=="quarterly"))
         {
           complete = true;
         }
@@ -171,14 +203,7 @@ namespace Arms
         if(complete)
         {
           Console.WriteLine("Executing: "+string.Join(" ",command));
-          ExecuteCommand(command, commandType);
-          modifyingCharge = commandType=="charge" ? true : modifyingCharge;
-
-          if(command[0]=="and" && modifyingCharge)
-          {
-            divStack.Pop();
-            modifyingCharge = false;
-          }
+          modifyingCharge = ExecuteCommand(command, commandType, modifyingCharge);
 
           commandType = "none";
           command = new List<string> {};

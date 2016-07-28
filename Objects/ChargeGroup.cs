@@ -42,6 +42,18 @@ namespace Arms
       Point center = _parent.shape.GetCenter();
       float centerOffsetX = center.X-(_parent.shape.width/2);
       float centerOffsetY = center.Y-(_parent.shape.height/2);
+      int numberOfDisplayRows = (int)Math.Floor(Math.Sqrt(Number));
+      Line[] displayRows = parent.shape.GetSectionLines(numberOfDisplayRows, true);
+      float displayPosition = 0F;
+      float totalDisplayLength = 0F;
+      foreach(Line l in displayRows)
+      {
+        totalDisplayLength += l.GetLength();
+      }
+      int chargesPerRow = (int)Math.Floor(totalDisplayLength/Number);
+      bool leftoverCharge = numberOfDisplayRows*chargesPerRow != Number;
+      float paddingX = totalDisplayLength/(float)(Number+1);
+      float paddingY = parent.shape.height/(numberOfDisplayRows+1);
       for(int i=0; i<_chargesDivs.Length; i++)
       {
         Polygon newChargeDivShape = null;
@@ -119,6 +131,43 @@ namespace Arms
           Point right = new Point(bendSinisterLine.GetXAtYPos(100F) ,100F);
 
           newChargeDivShape = new Polygon(new List<Point> {new Point(right.X+size,right.Y),new Point(right.X-size,right.Y),new Point(center.X,center.Y-size),new Point(left.X+size,left.Y),new Point(left.X-size,left.Y),new Point(center.X-size,center.Y),new Point(center.X-size,0F),new Point(center.X+size,0F),new Point(center.X+size,center.Y)}, 100F, 100F, 0F, 0F);
+        }
+        else
+        {
+          float position = paddingX*(float)(i+1);
+          float addPosition = 0F;
+          Line displayRow = displayRows[0];
+          for(int j=0; addPosition<position; j++)
+          {
+            addPosition += displayRows[j].GetLength();
+            displayRow = displayRows[j];
+          }
+          if(displayRow.GetLength()%paddingX < 0.01F && Number > displayRow.GetLength()/paddingX)
+          {
+            position -= paddingX/2;
+            // if(i>=Number/2+1)
+            // {
+            //   position += paddingX/2;
+            // }
+          }
+          float positionOnRow = displayRow.GetLength() - (addPosition-position);
+          Point displayPoint = new Point(displayRow.P1.X+positionOnRow, displayRow.P1.Y);
+          if(chargeDevice == "lozenge")
+          {
+            newChargeDivShape = new Polygon(new List<Point> {new Point(0F,50F),new Point(50F,100F),new Point(100F,50F),new Point(50F,0F)}, paddingX*.6F, paddingY*.8F, displayPoint.X-(paddingX*.6F)/2F, displayPoint.Y-(paddingY*.8F)/2F);
+          }
+          if(chargeDevice == "mullet")
+          {
+            float chargeWidth = Math.Min(paddingX*.7F,paddingY*.7F);
+            float chargeHeight = Math.Min(paddingX*.5F,paddingY*.5F)*(_parent.shape.width/_parent.shape.height);
+            newChargeDivShape = new Polygon(new List<Point> {new Point(0F,40F),new Point(33.333F,62F),new Point(20F,100F),new Point(50F,80F),new Point(80F,100F),new Point(66.6666F,62F),new Point(100F,40F),new Point(62F,40F),new Point(50F,0F),new Point(38F,40F)}, chargeWidth, chargeHeight, displayPoint.X-chargeWidth/2F, displayPoint.Y-chargeHeight/2F);
+          }
+          if(chargeDevice == "inescutcheon" || chargeDevice == "escutcheon")
+          {
+            float chargeWidth = Math.Min(paddingX*.6F,paddingY*.6F);
+            float chargeHeight = Math.Min(paddingX*.6F,paddingY*.6F)*(_parent.shape.width/_parent.shape.height);
+            newChargeDivShape = new Polygon(new List<Point> {new Point(0F,0F), new Point(0F,80F), new Point(50F,100F), new Point(100F,80F), new Point(100F,0F)}, chargeWidth, chargeHeight, displayPoint.X-chargeWidth/2F, displayPoint.Y-chargeHeight/2F);
+          }
         }
         _chargesDivs[i] = new Division(newChargeDivShape);
         _chargesDivs[i].field = inputField;

@@ -55,7 +55,14 @@ namespace Arms
     {
       if(commandType=="tincture")
       {
-        _field = new Field("solid", command.ToArray());
+        if(command[0]=="ermine" || command[0]=="vair")
+        {
+          _field = new Field("fur", command.ToArray());
+        }
+        else
+        {
+          _field = new Field("solid", command.ToArray());
+        }
       }
       if(commandType=="charge")
       {

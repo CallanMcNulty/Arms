@@ -22,16 +22,22 @@ namespace Arms
                                     "left:"+division.shape.offsetX+"%; ";
       if(division.subdivisions.Length == 0)
       {
-        result += "background-color:"+division.field.tinctures[0]+"; ";
-        result += "-webkit-clip-path:polygon(";
-        foreach(Point vertex in division.shape.vertices)
+        if(division.field.pattern=="solid")
         {
-          result += vertex.X.ToString()+"% "+vertex.Y.ToString()+"%, ";
+          result += "background-color:"+division.field.tinctures[0]+"; ";
         }
-        result = result.Substring(0, result.Length-2);
-        result += ");";
       }
-      result += "'> ";
+      else if(division.field.pattern=="fur")
+      {
+        result += "background-image: url("+division.field.imgUrl+"); ";
+      }
+      result += "-webkit-clip-path:polygon(";
+      foreach(Point vertex in division.shape.vertices)
+      {
+        result += vertex.X.ToString()+"% "+vertex.Y.ToString()+"%, ";
+      }
+      result = result.Substring(0, result.Length-2);
+      result += ");'> ";
       //Console.WriteLine(result);
       foreach(Division sub in division.subdivisions)
       {
@@ -53,7 +59,7 @@ namespace Arms
         List<Point> points = new List<Point> {new Point(0F,0F), new Point(0F,80F), new Point(50F,100F), new Point(100F,80F), new Point(100F,0F)};
         Polygon testPoly = new Polygon(points, 100F, 96F, 0F, 0F);
         Division div = new Division(testPoly);
-        Parser.Parse("per pale argent and or", div);
+        Parser.Parse("per pale per fess sable a chief or and purpure overall a bend argent and vert 11 mullets argent overall a lozenge azure", div);
         dynamic Model = new ExpandoObject();
         Model.html = GenerateHTML(div);
         Model.shieldShape = 1;
