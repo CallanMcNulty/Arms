@@ -14,45 +14,71 @@
   </script>
   </head>
   <body onload="insertHTML()" >
+    <div class="main-container">
+          <!-- <div class='logo-wrap'>BLAZZZZZON</div> -->
+          <div class='option-wrap'>
+            <!-- <button class="option1">Blazon</button>
+            <button class="rules">Rules</button>
+            <button class="option2">Quick Blazon</button> -->
+            <div class="option1">Blazon</div>
+            <div class="rules">Rules</div>
+            <div class="option2">Quick Blazon</div>
+          </div>
+          <!-- <div class="blazon-wrap">
+            <div class="input-wrap">
+              <input type="text" name="name" value="">
+              <button type="submit" name="button">Blaze It</button>
+            </div>
+          </div> -->
+            <div class="results">
+              <div class="image-fix">
+                <img src="http://localhost:5004/content/img/cartoucheborder.png" alt="shape fix, ignore">
+                <img src="http://localhost:5004/content/img/heaterborder.png" alt="shape fix, ignore">
+                <img src="http://localhost:5004/content/img/iberianborder.png" alt="shape fix, ignore">
+                <img src="http://localhost:5004/content/img/lozengeborder.png" alt="shape fix, ignore">
+                <img src="http://localhost:5004/content/img/swissborder.png" alt="shape fix, ignore">
+              </div>
 
-    <div class="image-fix">
-      <img src="http://localhost:5004/content/img/cartoucheborder.png" alt="shape fix, ignore">
-      <img src="http://localhost:5004/content/img/heaterborder.png" alt="shape fix, ignore">
-      <img src="http://localhost:5004/content/img/iberianborder.png" alt="shape fix, ignore">
-      <img src="http://localhost:5004/content/img/lozengeborder.png" alt="shape fix, ignore">
-      <img src="http://localhost:5004/content/img/swissborder.png" alt="shape fix, ignore">
-    </div>
+              <div class="container">
 
-    <div class="container">
+                <div class="shield-box">
+                  <div class="shape cartouche"></div>
+                  <div class="shield">
+                    <div id="shield" style="height: 500px; width: 400px; position: relative;"></div>
+                  </div>
+                </div>
 
-      <div class="shield-box">
-        <div class="shape cartouche"></div>
-        <div class="shield">
-          <div id="shield" style="height: 500px; width: 400px; position: relative;"></div>
-        </div>
-      </div>
+                <div class="form-box">
+                  <form action="/blazon" method="post" id="form1">
+                    <input class="blaze-string" type="text" name="blazon-string" value="@Model.newBlazon">
+                    <input hidden name="div-value" value="height: 500px; width: 400px; position: relative;">
+                    <input class="special-form" type="text" name="shield-shape" id="special-form" value="@Model.shieldShape">
+                    <button name="submit craft-btn">Craft</button>
+                  </form>
+                </div>
 
-      <div class="form-box">
-        <form action="/blazon" method="post" id="form1">
-          <input type="text" name="blazon-string" value="@Model.newBlazon">
-          <input hidden name="div-value" value="height: 500px; width: 400px; position: relative;">
-          <input type="text" name="shield-shape" id="special-form" value="@Model.shieldShape">
-          <button name="submit">submit</button>
-        </form>
-      </div>
+                <div class="menu">
+                    <div class="buttons shape-left" name="submit" form="form1">
+                      <img src="http://localhost:5004/content/img/left.png" alt="left arrow">
+                    </div> <!-- button left -->
+                    <p class="label">Shape</p>
+                    <div class="buttons shape-right" name="submit" form="form1">
+                      <img src="http://localhost:5004/content/img/right.png" alt="right arrow">
+                    </div> <!-- button right -->
+                </div> <!-- menu -->
 
-      <div class="menu">
+              </div><!-- container -->
+            </div>
+          </div>
+          <!-- <div class="quick-blazon">
+            <div class="selection-wrap">
+              amanda's picks
+            </div>
+            <div class="quick-results">
+              results
+            </div>
+          </div> -->
 
-          <button class="buttons shape-left" name="submit" form="form1">
-            <img src="http://localhost:5004/content/img/left.png" alt="left arrow">
-          </button> <!-- button left -->
-          <p class="label">Shape</p>
-          <button class="buttons shape-right" name="submit" form="form1">
-            <img src="http://localhost:5004/content/img/right.png" alt="right arrow">
-          </button> <!-- button right -->
-
-      </div> <!-- menu -->
-    </div><!-- container -->
     <script src="http://localhost:5004/content/js/jquery-3.1.0.js"></script>
     <script src="http://localhost:5004/content/js/maskscripts.js"></script>
   </body>
