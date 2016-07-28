@@ -22,7 +22,7 @@
           </div>
           <div class='option-wrap'>
             <div class="option1">Blazon</div>
-            <div class="rules">Rules</div>
+            <div class="rules"><a href="https://techdaly.github.io/arms-rules/">Rules</a></div>
             <div class="option2">Quick Blazon</div>
           </div>
             <div class="results">
@@ -35,14 +35,12 @@
               </div>
 
               <div class="container">
-
                 <div class="shield-box">
                   <div class="shape cartouche"></div>
                   <div class="shield">
                     <div id="shield" style="height: 500px; width: 400px; position: relative;"></div>
                   </div>
                 </div>
-
                 <div class="form-box">
                   <form action="/blazon" method="post" id="form1">
                     <input class="blaze-string" type="text" name="blazon-string" value="@Model.newBlazon">
@@ -50,8 +48,12 @@
                     <input class="special-form" type="text" name="shield-shape" id="special-form" value="@Model.shieldShape">
                     <button name="submit craft-btn">Craft</button>
                   </form>
+                  <form action = "/save" method = "post">
+                    <label>Name your new Coat of Arms</label>
+                    <input type="text" name="blazon-name">
+                    <input hidden type="text" name="blazon-blazon" value="@Model.newBlazon">
+                  <button name="button">Save</button>
                 </div>
-
                 <div class="menu">
                     <div class="buttons shape-left" name="submit" form="form1">
                       <img src="http://localhost:5004/content/img/left.png" alt="left arrow">
@@ -61,19 +63,21 @@
                       <img src="http://localhost:5004/content/img/right.png" alt="right arrow">
                     </div> <!-- button right -->
                 </div> <!-- menu -->
-
-              </div><!-- container -->
+              </div>
             </div>
-          </div>
-          <!-- <div class="quick-blazon">
-            <div class="selection-wrap">
-              amanda's picks
+              <div class="saved-results">
+                <h1>Saved Blazons</h1>
+                </br>
+                <ol>@foreach(var blazon in @Model.allBlazons)
+                {
+                  <li>@blazon.name | @blazon.blazon</li>
+                }
+                </ol>
+                <form action="delete" method="post">
+                  <button type="submit" name="button">delete all</button>
+                </form>
+              </div>
             </div>
-            <div class="quick-results">
-              results
-            </div>
-          </div> -->
-
     <script src="http://localhost:5004/content/js/jquery-3.1.0.js"></script>
     <script src="http://localhost:5004/content/js/maskscripts.js"></script>
   </body>
