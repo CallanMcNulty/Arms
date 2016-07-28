@@ -219,7 +219,7 @@ namespace Arms
       }
       return true;
     }
-    public static void Parse(string blazonString, Division div)
+    public static string Parse(string blazonString, Division div)
     {
       Console.WriteLine("---NEW ARMS BEGIN---");
       divStack.Clear();
@@ -229,7 +229,7 @@ namespace Arms
       Console.WriteLine("on {0}", usingOn);
       if(!AllTermsInDict(blazon))
       {
-        return;
+        return "Not all words are recognized";
       }
       string commandType = termTypes[blazon[0]];
       List<string> command = new List<string> {};
@@ -237,6 +237,10 @@ namespace Arms
       usingOn = false;
       for(int i=0; i<blazon.Length; i++)
       {
+        if(blazon[i]=="quarterly" && i!=0)
+        {
+          return "Only one quartering allowed, use 'per pale' and 'per fess' instead";
+        }
         command.Add(blazon[i]);
         // Get Term Type
         string termType = GetTermType(blazon, i, commandType);
@@ -268,13 +272,14 @@ namespace Arms
         {
           Console.WriteLine("Executing: "+string.Join(" ",command));
           modifyingCharge = ExecuteCommand(command, commandType, modifyingCharge);
-          if(modifyingCharge==-1){return;}
+          if(modifyingCharge==-1){return "Problem at word "+i.ToString();}
           commandType = "none";
           command = new List<string> {};
         }
         Console.WriteLine("Finished with Term");
       }
       Console.WriteLine("---------");
+      return "";
     }
 
     public static string[] FormatBlazon(string newBlazon)
