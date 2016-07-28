@@ -91,3 +91,9 @@
   width: 100%;
   height: 100%;
 }
+.ermine {
+  background-image: url('http://localhost:5004/content/img/ermine.png');
+}
+.vair {
+  background-image: url('http://localhost:5004/content/img/vair.png');
+}
