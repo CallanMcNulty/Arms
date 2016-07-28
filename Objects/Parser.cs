@@ -123,19 +123,31 @@ namespace Arms
       }
       return true;
     }
+    private static bool TryPop()
+    {
+      if(divStack.Count>1)
+      {
+        divStack.Pop();
+        return true;
+      }
+      return false;
+    }
     private static int ExecuteCommand(List<string> command, string commandType, int modifyingCharge)
     {
+      if(modifyingCharge==-1){return modifyingCharge;}
       Console.WriteLine("Charges: {0} "+commandType,modifyingCharge);
       if(commandType=="grammar" && command[0]!="i")
       {
-        divStack.Pop();
+        if(!TryPop()){return -1;}
         if(divStack.Peek().subdivisions.Length > 0 && command[0] != "overall")
         {
-          divStack.Pop();
+          if(!TryPop()){return -1;}
         }
       }
       else if(commandType=="tincture")
       {
+        if(command.Count > 1){return -1;}
+        if(command[0]=="and"){return -1;}
         if(modifyingCharge==0)
         {
           divStack.Peek().ExecuteCommand(command, commandType);
@@ -144,7 +156,7 @@ namespace Arms
         {
           Console.WriteLine("in");
           divStack.Peek().ExecuteCommand(command, commandType);
-          divStack.Pop();
+          if(!TryPop()){return -1;}
           modifyingCharge -= 1;
         }
         // modifyingCharge = ExecuteCommand(command,commandType,modifyingCharge);
@@ -153,7 +165,15 @@ namespace Arms
       {
         if(commandType=="charge")
         {
-          modifyingCharge += Int32.Parse(command[0]);
+          if(command.Count != 2){return -1;}
+          int num;
+          if(!Int32.TryParse(command[0], out num)){return -1;}
+          modifyingCharge += num;
+        }
+        if(commandType=="division")
+        {
+          if(command.Count != 2 && command[0]!="quarterly"){return -1;}
+          if(command[0]!="quarterly"){if(termTypes[command[1]]!="ordinary"){return -1;}}
         }
         Division[] newDivisions = divStack.Peek().ExecuteCommand(command, commandType);
         Array.Reverse(newDivisions);
@@ -165,6 +185,19 @@ namespace Arms
       Console.WriteLine(divStack.Count);
       return modifyingCharge;
     }
+    private static bool AllTermsInDict(string[] blazon)
+    {
+      foreach(string term in blazon)
+      {
+        int num;
+        bool isNum = Int32.TryParse(term, out num);
+        if(!termTypes.ContainsKey(term) && !isNum)
+        {
+          return false;
+        }
+      }
+      return true;
+    }
     public static void Parse(string blazonString, Division div)
     {
       Console.WriteLine("---NEW ARMS BEGIN---");
@@ -172,6 +205,10 @@ namespace Arms
       divStack.Push(div);
       string[] blazon = FormatBlazon(blazonString);
       Console.WriteLine(string.Join(" ",blazon));
+      if(!AllTermsInDict(blazon))
+      {
+        return;
+      }
       string commandType = termTypes[blazon[0]];
       List<string> command = new List<string> {};
       int modifyingCharge = 0;
@@ -204,7 +241,7 @@ namespace Arms
         {
           Console.WriteLine("Executing: "+string.Join(" ",command));
           modifyingCharge = ExecuteCommand(command, commandType, modifyingCharge);
-
+          if(modifyingCharge==-1){return;}
           commandType = "none";
           command = new List<string> {};
         }

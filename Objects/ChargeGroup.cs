@@ -44,7 +44,6 @@ namespace Arms
       float centerOffsetY = center.Y-(_parent.shape.height/2);
       int numberOfDisplayRows = (int)Math.Floor(Math.Sqrt(Number));
       Line[] displayRows = parent.shape.GetSectionLines(numberOfDisplayRows, true);
-      float displayPosition = 0F;
       float totalDisplayLength = 0F;
       foreach(Line l in displayRows)
       {
@@ -145,10 +144,6 @@ namespace Arms
           if(displayRow.GetLength()%paddingX < 0.01F && Number > displayRow.GetLength()/paddingX)
           {
             position -= paddingX/2;
-            // if(i>=Number/2+1)
-            // {
-            //   position += paddingX/2;
-            // }
           }
           float positionOnRow = displayRow.GetLength() - (addPosition-position);
           Point displayPoint = new Point(displayRow.P1.X+positionOnRow, displayRow.P1.Y);
