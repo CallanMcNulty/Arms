@@ -109,35 +109,35 @@ form {
 }
 
 .cartouche {
-  background-image: url('../img/cartoucheborder.png');
+  background-image: url('../img/cartoucheborder1.png');
   background-repeat: no-repeat;
   background-size: 500px 500px;
   background-position: center;
 }
 
 .heater {
-  background-image: url('../img/heaterborder.png');
+  background-image: url('../img/heaterborder1.png');
   background-repeat: no-repeat;
   background-size: 500px 500px;
   background-position: center;
 }
 
 .iberian {
-  background-image: url('../img/iberianborder.png');
+  background-image: url('../img/iberianborder1.png');
   background-repeat: no-repeat;
   background-size: 500px 500px;
   background-position: center;
 }
 
 .swiss{
-  background-image: url('../img/swissborder.png');
+  background-image: url('../img/swissborder1.png');
   background-repeat: no-repeat;
   background-size: 500px 500px;
   background-position: center;
 }
 
 .lozenge {
-  background-image: url('../img/lozengeborder.png');
+  background-image: url('../img/lozengeborder1.png');
   background-repeat: no-repeat;
   background-size: 500px 500px;
   background-position: center;
