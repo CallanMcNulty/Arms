@@ -1,12 +1,12 @@
-# _Arctic Wild Replica_
+# _Arms Generator_
 
-#### _Fourth code review for CSS at Epicodus, 07.01.2016_
+#### _C# and CSS Team Week Project at Epicodus, 07.01.2016_
 
 #### By _**Callan McNulty, Alan Denison, Niem Nguyen, and Amanda Daly**_
 
 ## Description
 
-_This is a website built using HTML, SCSS and Flexbox that replicates Arctic Wild. This site is hosted on GitHub Pages at http://techdaly.github.io./arctic-wild_.
+_This is a blazon parser built using C#, SQL, Razor, JavaScript, JQuery, HTML and CSS.
 
 ## Setup/Installation Requirements
 
