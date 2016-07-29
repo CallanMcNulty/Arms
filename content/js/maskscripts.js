@@ -11,6 +11,7 @@ $(".shape-right").click(function(){
   currentShape++;
   $(".shape").addClass(shapeLoop(currentShape));
   $("input#special-form:text").val(Math.abs(currentShape % shapes.length));
+  $("#form1").submit();
 })
 
 $(".shape-left").click(function(){
@@ -23,9 +24,18 @@ $(".shape-left").click(function(){
   currentShape--;
   $(".shape").addClass(shapeLoop(currentShape));
   $("input#special-form:text").val(Math.abs(currentShape % shapes.length));
+  $("#form1").submit();
 })
 
-$("form#form1").submit(function(event){
-  currentShape = $("input#special-form").val();
-  $(".shape").addClass(shapes[currentShape]);
+// $("form#form1").submit(function(event){
+//   currentShape = $("input#special-form").val();
+//   $(".shape").addClass(shapes[currentShape]);
+// })
+
+$('.option2').click(function(){
+  $('.results').hide();
+})
+
+$('.option1').click(function(){
+  $('.results').show();
 })

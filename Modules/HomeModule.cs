@@ -71,7 +71,6 @@ namespace Arms
         }
       }
       result += "</div>";
-      // Console.WriteLine(result);
       return result;
     }
     public HomeModule()
@@ -112,7 +111,6 @@ namespace Arms
       };
       Post["/delete"]= _ => {
         SaveBlazon.DeleteAll();
-
         string path = "/blazon/per+pale+per+fess+sable+a+chief+or+and+purpure+overall+a+bend+argent+and+vert+11+mullets+argent+overall+a+lozenge+azure/shieldShape/1";
         return Response.AsRedirect(path);
 

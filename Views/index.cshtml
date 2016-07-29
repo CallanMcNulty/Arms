@@ -3,7 +3,7 @@
   <head>
   <meta charset="utf-8">
   <link href="https://fonts.googleapis.com/css?family=Mirza" rel="stylesheet">
-  <link href="http://localhost:5004/content/css/application.css" rel="stylesheet" type="text/css">
+  <link href="http://localhost:5004/content/css/application.css" rel="stylesheet" type="text/css" media="screen">
   <script type="text/javascript">
     var insertHTML = function() {
       var s = "@Model.html";
@@ -16,64 +16,66 @@
   </script>
   </head>
   <body onload="insertHTML()" >
-
-    <div class="image-fix">
-      <img src="http://localhost:5004/content/img/cartoucheborder.png" alt="shape fix, ignore">
-      <img src="http://localhost:5004/content/img/heaterborder.png" alt="shape fix, ignore">
-      <img src="http://localhost:5004/content/img/iberianborder.png" alt="shape fix, ignore">
-      <img src="http://localhost:5004/content/img/lozengeborder.png" alt="shape fix, ignore">
-      <img src="http://localhost:5004/content/img/swissborder.png" alt="shape fix, ignore">
-    </div>
-
-    <div class="container">
-
-      <div class="shield-box">
-        <div class="shape"></div>
-        <div class="shield">
-          <div id="shield" style="height: 500px; width: 400px; position: relative;"></div>
-        </div>
-      </div>
-
-      <div class="form-box">
-        <form action="/blazon" method="post" id="form1">
-          <input type="text" name="blazon-string" value="@Model.newBlazon">
-          <input hidden name="div-value" value="height: 500px; width: 400px; position: relative;">
-          <input type="text" hidden name="shield-shape" id="special-form" value="@Model.shieldShape">
-          <button name="submit">submit</button>
-        </form>
-        <form action = "/save" method = "post">
-          <label>Name your new Coat of Arms</label>
-          <input type="text" name="blazon-name">
-          <input hidden type="text" name="blazon-blazon" value="@Model.newBlazon">
-        <button name="button">Save</button>
-        </form>
-      </div>
-
-      <div class="menu">
-
-          <button class="buttons shape-left" name="submit" form="form1">
-            <img src="http://localhost:5004/content/img/left.png" alt="left arrow">
-          </button> <!-- button left -->
-          <p class="label">Shape</p>
-          <button class="buttons shape-right" name="submit" form="form1">
-            <img src="http://localhost:5004/content/img/right.png" alt="right arrow">
-          </button> <!-- button right -->
-
-
-          <h1>Saved Blazons</h1>
-          </br>
-          <ol>@foreach(var blazon in @Model.allBlazons)
-          {
-            <li><a href='/blazon/@blazon.blazon.Replace(" ", "+")/shieldShape/0'>@blazon.name </a>| @blazon.blazon</li>
-          }
-          </ol>
-          <form action="/delete" method="post">
-            <button type="submit" name="button">DELETE ALL</button>
-          </form>
-
-
-      </div> <!-- menu -->
-    </div><!-- container -->
+    <div class="main-container">
+          <div class="epic">
+            <!-- epic blazon -->
+          </div>
+          <div class='option-wrap'>
+            <div class="rules"><a href="https://techdaly.github.io/arms-rules/">Rules</a></div>
+          </div>
+            <div class="results">
+              <div class="image-fix">
+                <img src="http://localhost:5004/content/img/cartoucheborder.png" alt="shape fix, ignore">
+                <img src="http://localhost:5004/content/img/heaterborder.png" alt="shape fix, ignore">
+                <img src="http://localhost:5004/content/img/iberianborder.png" alt="shape fix, ignore">
+                <img src="http://localhost:5004/content/img/lozengeborder.png" alt="shape fix, ignore">
+                <img src="http://localhost:5004/content/img/swissborder.png" alt="shape fix, ignore">
+              </div>
+              <div class="container">
+                <div class="shield-box">
+                  <div class="shape cartouche"></div>
+                  <div class="shield">
+                    <div id="shield" style="height: 500px; width: 400px; position: relative;"></div>
+                  </div>
+                </div>
+                <div class="form-box">
+                  <form action="/blazon" method="post" id="form1">
+                    <input class="blaze-string" type="text" name="blazon-string" value="@Model.newBlazon">
+                    <input hidden name="div-value" value="height: 500px; width: 400px; position: relative;">
+                    <input class="special-form" type="text" name="shield-shape" id="special-form" value="@Model.shieldShape">
+                    <button name="submit craft-btn">Craft</button>
+                  </form>
+                  <form action = "/save" method = "post">
+                    <label>Name your new Coat of Arms</label>
+                    <input type="text" name="blazon-name">
+                    <input hidden type="text" name="blazon-blazon" value="@Model.newBlazon">
+                    <button name="button">Save</button>
+                  </form>
+                </div>
+                <div class="menu">
+                    <div class="buttons shape-left" name="submit" form="form1">
+                      <img src="http://localhost:5004/content/img/left.png" alt="left arrow">
+                    </div> <!-- button left -->
+                    <p class="label">Shape</p>
+                    <div class="buttons shape-right" name="submit" form="form1">
+                      <img src="http://localhost:5004/content/img/right.png" alt="right arrow">
+                    </div> <!-- button right -->
+                </div> <!-- menu -->
+              </div>
+            </div>
+              <div class="saved-results">
+                <h1>Saved Blazons</h1>
+                </br>
+                <ol>@foreach(var blazon in @Model.allBlazons)
+                {
+                  <li><a href='/blazon/@blazon.blazon.Replace(" ", "+")/shieldShape/0'>@blazon.name </a>| @blazon.blazon</li>
+                }
+                </ol>
+                <form action="delete" method="post">
+                  <button type="submit" name="button">delete all</button>
+                </form>
+              </div>
+            </div>
     <script src="http://localhost:5004/content/js/jquery-3.1.0.js"></script>
     <script src="http://localhost:5004/content/js/maskscripts.js"></script>
   </body>
