@@ -1,41 +1,25 @@
-var shapes = ["heater", "cartouche", "swiss", "iberian", "lozenge", "none"];
+var shapes = ["heater", "cartouche", "swiss", "iberian", "lozenge"];
 var currentShape = $("input#special-form").val();
-var shapeLoop = function(currentShape) {
-  return shapes[Math.abs(currentShape % shapes.length)];
+for(i=0; i<shapes.length; i++)
+{
+  $(".shape").removeClass(shapes[i]);
 }
-
 $(".shape").addClass(shapes[currentShape]);
 
 $(".shape-right").click(function(){
-  $(".shape").removeClass(shapeLoop(currentShape));
   currentShape++;
-  $(".shape").addClass(shapeLoop(currentShape));
-  $("input#special-form:text").val(Math.abs(currentShape % shapes.length));
+  if(currentShape>=shapes.length){
+    currentShape = 0;
+  }
+  $(".special-form:text").val(currentShape);
   $("#form1").submit();
-})
+});
 
 $(".shape-left").click(function(){
-
-  if(currentShape === "0") {
-    currentShape = shapes.length;
-  }
-
-  $(".shape").removeClass(shapeLoop(currentShape));
   currentShape--;
-  $(".shape").addClass(shapeLoop(currentShape));
-  $("input#special-form:text").val(Math.abs(currentShape % shapes.length));
+  if(currentShape<0){
+    currentShape = shapes.length-1;
+  }
+  $(".special-form:text").val(currentShape);
   $("#form1").submit();
-})
-
-// $("form#form1").submit(function(event){
-//   currentShape = $("input#special-form").val();
-//   $(".shape").addClass(shapes[currentShape]);
-// })
-
-$('.option2').click(function(){
-  $('.results').hide();
-})
-
-$('.option1').click(function(){
-  $('.results').show();
-})
+});

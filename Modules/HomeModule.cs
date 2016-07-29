@@ -103,10 +103,11 @@ namespace Arms
       Post["/save"]= _ => {
         string blazonName = Request.Form["blazon-name"];
         string blazonBlazon = Request.Form["blazon-blazon"];
-        SaveBlazon newSaveBlazon = new SaveBlazon(blazonName, blazonBlazon);
+        int blazonShape = (int)Request.Form["shield-shape"];
+        SaveBlazon newSaveBlazon = new SaveBlazon(blazonName, blazonBlazon, blazonShape);
         newSaveBlazon.Save();
         string formattedBlazon = blazonBlazon.Replace(" ", "+");
-        string path = "/blazon/"+formattedBlazon+"/shieldShape/0";
+        string path = "/blazon/"+formattedBlazon+"/shieldShape/"+blazonShape;
         return Response.AsRedirect(path);
       };
       Post["/delete"]= _ => {

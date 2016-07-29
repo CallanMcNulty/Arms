@@ -321,12 +321,8 @@ namespace Geometry
       //test if new points are already present
       bool p1Overlap = false;
       bool p2Overlap = false;
-      Console.WriteLine("----");
-      Console.WriteLine(point1);
-      Console.WriteLine(point2);
       foreach(Point vertex in vertices)
       {
-        Console.WriteLine(vertex);
         if(vertex==point1)
         {
           p1Overlap = true;
@@ -374,8 +370,6 @@ namespace Geometry
         }
         newPolygonPointLists[i] = currentPointList;
       }
-      Console.WriteLine("Point List 1: {0}",newPolygonPointLists[0].Count);
-      Console.WriteLine("Point List 2: {0}",newPolygonPointLists[1].Count);
       //calculate new polygon data
       List<Polygon> result = new List<Polygon> {};
       foreach(List<Point> polygonPoints in newPolygonPointLists)
@@ -416,7 +410,6 @@ namespace Geometry
     public List<Polygon> PartyPer(string partitionType)
     {
       Point center = this.GetCenter();
-      Console.WriteLine("Center at Partition {0}",center);
       if(partitionType=="pale")
       {
         return this.Party(new Line(center, new Point(center.X, 100) ));

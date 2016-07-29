@@ -10,12 +10,14 @@ namespace Arms
     public int id { get; set;}
     public string name { get; set; }
     public string blazon { get; set; }
+    public int shape { get; set; }
 
-    public SaveBlazon(string Name, string Blazon, int Id =0)
+    public SaveBlazon(string Name, string Blazon, int Shape, int Id =0)
     {
-    id = Id;
-    name = Name;
-    blazon = Blazon;
+      id = Id;
+      name = Name;
+      blazon = Blazon;
+      shape = Shape;
     }
     public override bool Equals(System.Object otherSavedBlazon)
     {
@@ -29,12 +31,13 @@ namespace Arms
         bool idEquality = id == newSavedBlazon.id;
         bool nameEquality = name == newSavedBlazon.name;
         bool blazonEquality = blazon == newSavedBlazon.blazon;
+        bool shapeEquality = shape == newSavedBlazon.shape;
         return (idEquality && nameEquality);
       }
     }
     public void Save()
     {
-      DBObjects dbo = DBObjects.CreateCommand("INSERT INTO blazons (name, blazon) OUTPUT INSERTED.id VALUES (@savedBlazonName, @savedBlazonBlazon);", new List<string> {"@savedBlazonName", "@savedBlazonBlazon"}, new List<object> {name, blazon});
+      DBObjects dbo = DBObjects.CreateCommand("INSERT INTO blazons (name, blazon, shape) OUTPUT INSERTED.id VALUES (@savedBlazonName, @savedBlazonBlazon, @savedBlazonShape);", new List<string> {"@savedBlazonName", "@savedBlazonBlazon", "@savedBlazonShape"}, new List<object> {name, blazon, shape});
       SqlDataReader rdr = dbo.RDR;
       rdr = dbo.CMD.ExecuteReader();
       while (rdr.Read())
@@ -58,13 +61,15 @@ namespace Arms
       int foundSavedBlazonId = 0;
       string foundSavedBlazonName = null;
       string foundSavedBlazonBlazon = null;
+      int foundSavedBlazonShape = 0;
       while (rdr.Read())
       {
         foundSavedBlazonId = rdr.GetInt32(0);
         foundSavedBlazonName = rdr.GetString(1);
         foundSavedBlazonBlazon = rdr.GetString(2);
+        foundSavedBlazonShape = rdr.GetInt32(3);
       }
-      SaveBlazon foundSavedBlazon = new SaveBlazon(foundSavedBlazonName, foundSavedBlazonBlazon, foundSavedBlazonId);
+      SaveBlazon foundSavedBlazon = new SaveBlazon(foundSavedBlazonName, foundSavedBlazonBlazon, foundSavedBlazonShape, foundSavedBlazonId);
       dbo.Close();
       return foundSavedBlazon;
     }
@@ -80,13 +85,12 @@ namespace Arms
         int blazonId = rdr.GetInt32(0);
         string blazonName = rdr.GetString(1);
         string blazonBlazon = rdr.GetString(2);
-        SaveBlazon newSavedBlazon = new SaveBlazon(blazonName, blazonBlazon, blazonId);
+        int blazonShape = rdr.GetInt32(3);
+        SaveBlazon newSavedBlazon = new SaveBlazon(blazonName, blazonBlazon, blazonShape, blazonId);
         allBlazons.Add(newSavedBlazon);
       }
       dbo.Close();
       return allBlazons;
     }
   }
-
-
 }

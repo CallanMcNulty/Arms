@@ -142,7 +142,6 @@ namespace Arms
     private static int ExecuteCommand(List<string> command, string commandType, int modifyingCharge)
     {
       if(modifyingCharge==-1){return modifyingCharge;}
-      Console.WriteLine("Charges: {0} "+commandType,modifyingCharge);
       if(commandType=="grammar" && command[0]!="i" && command[0]!="on")
       {
         if(!TryPop()){return -1;}
@@ -200,7 +199,6 @@ namespace Arms
           divStack.Push(d);
         }
       }
-      Console.WriteLine(divStack.Count);
       return modifyingCharge;
     }
     private static bool AllTermsInDict(string[] blazon)
@@ -222,12 +220,11 @@ namespace Arms
     }
     public static string Parse(string blazonString, Division div)
     {
-      Console.WriteLine("---NEW ARMS BEGIN---");
+      //Console.WriteLine("---NEW ARMS BEGIN---");
       divStack.Clear();
       divStack.Push(div);
       string[] blazon = FormatBlazon(blazonString);
-      Console.WriteLine(string.Join(" ",blazon));
-      Console.WriteLine("on {0}", usingOn);
+      //Console.WriteLine(string.Join(" ",blazon));
       if(!AllTermsInDict(blazon))
       {
         return "Not all words are recognized";
@@ -245,8 +242,8 @@ namespace Arms
         command.Add(blazon[i]);
         // Get Term Type
         string termType = GetTermType(blazon, i, commandType);
-        Console.WriteLine("Stack Size: {0}",divStack.Count);
-        Console.WriteLine(blazon[i]+": "+termType);
+        //Console.WriteLine("Stack Size: {0}",divStack.Count);
+        //Console.WriteLine(blazon[i]+": "+termType);
         commandType = commandType=="none" ? termType : commandType;
         // Check for command completeness
         bool complete = false;
@@ -271,15 +268,15 @@ namespace Arms
         // Execute command if complete
         if(complete)
         {
-          Console.WriteLine("Executing: "+string.Join(" ",command));
+          //Console.WriteLine("Executing: "+string.Join(" ",command));
           modifyingCharge = ExecuteCommand(command, commandType, modifyingCharge);
           if(modifyingCharge==-1){return "Problem at word "+i.ToString();}
           commandType = "none";
           command = new List<string> {};
         }
-        Console.WriteLine("Finished with Term");
+        //Console.WriteLine("Finished with Term");
       }
-      Console.WriteLine("---------");
+      //Console.WriteLine("---------");
       return "";
     }
 

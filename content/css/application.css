@@ -5,6 +5,10 @@ body {
   position: relative;
 }
 
+a {
+  color: #ff5050;
+}
+
 .option-wrap {
   display: flex;
   justify-content: flex-end;
@@ -70,13 +74,12 @@ form {
 
 .blaze-string {
   background-color: rgba (0, 0, 0,.5);
-  width: 15em;
+  width: 80%;
   font-size: 1.25em;
 }
 
 .special-form {
-  width: 2em;
-  font-size: 1.25em;
+  display: none;
 }
 
 
@@ -101,7 +104,7 @@ form {
   margin-left: 0px;
   width: 400px;
   height: 500px;
-  transition: all 1s;
+  /*transition: all 1s;*/
 
 }
 
