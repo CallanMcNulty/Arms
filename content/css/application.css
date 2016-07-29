@@ -1,7 +1,7 @@
 body {
   background: url('http://img.hdwallpaperpc.com/cover/tmp/Fantasy_Knight_Medieval_Sword_Armor_Drawing_86251_1920x1080.png');
   background-repeat: no-repeat;
-  background-size: 165em;
+  background-size: 180em;
   position: relative;
 }
 
@@ -54,6 +54,7 @@ a {
 
 .label {
   font-size: 3em;
+  color: white;
 }
 
 .buttons:hover {
@@ -104,8 +105,7 @@ form {
   margin-left: 0px;
   width: 400px;
   height: 500px;
-  /*transition: all 1s;*/
-
+  /*transition: all .2s;*/
 }
 
 .cartouche {
@@ -183,15 +183,44 @@ form {
 #form1 {
   padding-bottom: 1em;
 }
+
+.main-container {
+  padding: 5%;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  display: none;
+}
+
+.ham {
+  width: 40px;
+  height: 7px;
+  margin: 2px;
+  background: white;
+}
 @media screen and (max-width: 2000px) {
   .results {
     left: 50%;
   }
+  .saved-results {
+    top: 150px;
+    display: none;
+  }
+
+  .hamburger{
+    display: flex;
+  }
+
 }
 
 @media screen and (max-width: 1440px) {
   .results {
     left: 30%;
+  }
+  .saved-results{
+    /*left: 15%;*/
   }
 }
 .potent {

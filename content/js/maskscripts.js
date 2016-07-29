@@ -23,3 +23,7 @@ $(".shape-left").click(function(){
   $(".special-form:text").val(currentShape);
   $("#form1").submit();
 });
+
+$('.hamburger').click(function(){
+  $('.saved-results').slideDown('slow');
+});
